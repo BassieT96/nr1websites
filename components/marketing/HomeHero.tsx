@@ -32,7 +32,9 @@ export function HomeHero() {
 
   const animationProps = allowHeavyMotion
     ? { variants: containerVariants, initial: "hidden" as const, animate: "show" as const }
-    : { initial: "show" as const, animate: "show" as const };
+    : {};
+  // On Safari (allowHeavyMotion=false), don't pass variants to children so they're always visible
+  const iv = allowHeavyMotion ? itemVariants : undefined;
 
   const { scrollY } = useScroll();
   const kickerYRaw = useTransform(scrollY, [0, 500], [0, -40]);
@@ -63,7 +65,7 @@ export function HomeHero() {
       >
         {/* Trust Kicker */}
         <motion.div
-          variants={itemVariants}
+          variants={iv}
           style={{ y: kickerY }}
           className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-border bg-surface/80 backdrop-blur-md shadow-sm mb-10 transition-colors hover:border-primary/30"
         >
@@ -72,16 +74,16 @@ export function HomeHero() {
         </motion.div>
 
         {/* Core Message */}
-        <motion.h1 variants={itemVariants} className="type-display-hero text-foreground mb-8 max-w-5xl mx-auto text-balance leading-[1.05]">
+        <motion.h1 variants={iv} className="type-display-hero text-foreground mb-8 max-w-5xl mx-auto text-balance leading-[1.05]">
           De <WordCycler words={["premium", "strakke", "slimste", "snelste", "mooiste"]} className="mx-[0.2em]" /> website die voor je verkoopt.
         </motion.h1>
 
-        <motion.p variants={itemVariants} className="type-body-lead text-muted max-w-2xl mx-auto mb-14 text-pretty font-medium leading-relaxed">
+        <motion.p variants={iv} className="type-body-lead text-muted max-w-2xl mx-auto mb-14 text-pretty font-medium leading-relaxed">
           Wij ontwerpen en bouwen snelle, moderne websites voor ondernemers die klaar zijn voor de volgende stap. Geen ruis, alleen resultaat.
         </motion.p>
 
         {/* Dual Actions */}
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6 mb-14 w-full sm:w-auto">
+        <motion.div variants={iv} className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6 mb-14 w-full sm:w-auto">
           <ButtonLink href="/contact" variant="primary" className="w-full sm:w-auto text-[16px] px-10 py-5 h-auto">
             Plan een strategiesessie
             <ArrowRight className="w-5 h-5 ml-2" />
@@ -93,7 +95,7 @@ export function HomeHero() {
 
         {/* Availability Badge */}
         {siteConfig.availabilityMessage && (
-          <motion.div variants={itemVariants} className="flex items-center gap-2 text-sm text-emerald-400 mb-6">
+          <motion.div variants={iv} className="flex items-center gap-2 text-sm text-emerald-400 mb-6">
             <span className="relative flex h-2 w-2">
               <span className={allowHeavyMotion ? "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" : "absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-40"} />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -103,7 +105,7 @@ export function HomeHero() {
         )}
 
         {/* Trust Microcopy */}
-        <motion.p variants={itemVariants} className="text-[13px] text-muted-strong font-semibold flex items-center gap-3 bg-surface-strong/30 px-6 py-2 rounded-full backdrop-blur-sm border border-border/40">
+        <motion.p variants={iv} className="text-[13px] text-muted-strong font-semibold flex items-center gap-3 bg-surface-strong/30 px-6 py-2 rounded-full backdrop-blur-sm border border-border/40">
           <span className="flex size-5 items-center justify-center rounded-full bg-success/10 text-success">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
