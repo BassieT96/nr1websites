@@ -91,9 +91,9 @@ export function WebsitesHero({ page }: { page: CommercialPage }) {
           {/* Headline */}
           <motion.h1
             style={{ opacity: titleOpacity, y: titleY }}
-            initial={{ opacity: 0, y: 24, filter: "blur(16px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
             className="text-[clamp(2.75rem,8vw,7.5rem)] font-display font-semibold text-white tracking-[-0.04em] leading-[0.88] mb-8"
           >
             Websites die{" "}

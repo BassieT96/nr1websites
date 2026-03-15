@@ -27,23 +27,11 @@ export function CtaSection() {
                 <div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] bg-blue-500/5 rounded-full blur-[100px] animate-[pulse-glow_7s_ease-in-out_infinite_2s]" />
             </div>
 
-            {/* Floating glass elements */}
+            {/* Static glass accents */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden hidden lg:block">
-                <motion.div
-                    animate={{ y: [0, -15, 0], rotate: [12, 14, 12] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-[15%] left-[10%] w-20 h-20 rounded-2xl glass-dark border border-accent/10 opacity-30"
-                />
-                <motion.div
-                    animate={{ y: [0, 10, 0], rotate: [-6, -8, -6] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute bottom-[20%] right-[8%] w-16 h-16 rounded-xl glass-dark border border-border opacity-20"
-                />
-                <motion.div
-                    animate={{ y: [0, -8, 0], rotate: [45, 47, 45] }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-[60%] left-[5%] w-12 h-12 rounded-lg glass-dark border border-accent/10 opacity-20"
-                />
+                <div className="absolute top-[15%] left-[10%] w-20 h-20 rounded-2xl glass-dark border border-accent/10 opacity-20 rotate-12" />
+                <div className="absolute bottom-[20%] right-[8%] w-16 h-16 rounded-xl glass-dark border border-border opacity-15 -rotate-6" />
+                <div className="absolute top-[60%] left-[5%] w-12 h-12 rounded-lg glass-dark border border-accent/10 opacity-15 rotate-45" />
             </div>
 
             <motion.div
@@ -51,8 +39,8 @@ export function CtaSection() {
                 className="max-w-[1200px] mx-auto relative z-10 text-center flex flex-col items-center"
             >
                 <motion.div
-                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
                 >

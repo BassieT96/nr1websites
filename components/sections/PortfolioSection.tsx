@@ -54,8 +54,8 @@ export function PortfolioSection() {
 
             <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 32, filter: 'blur(8px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 32 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >

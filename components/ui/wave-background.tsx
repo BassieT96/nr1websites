@@ -97,12 +97,22 @@ export function Waves({
         window.addEventListener('resize', onResize)
         window.addEventListener('mousemove', onMouseMove)
         containerRef.current.addEventListener('touchmove', onTouchMove, { passive: false })
+        // Pause animation when tab is hidden to save resources
+        const onVisibilityChange = () => {
+            if (document.hidden) {
+                if (rafRef.current) cancelAnimationFrame(rafRef.current)
+            } else {
+                rafRef.current = requestAnimationFrame(tick)
+            }
+        }
+        document.addEventListener('visibilitychange', onVisibilityChange)
         // Start animation
         rafRef.current = requestAnimationFrame(tick)
         return () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current)
             window.removeEventListener('resize', onResize)
             window.removeEventListener('mousemove', onMouseMove)
+            document.removeEventListener('visibilitychange', onVisibilityChange)
             containerRef.current?.removeEventListener('touchmove', onTouchMove)
         }
     }, [])
@@ -124,9 +134,9 @@ export function Waves({
             path.remove()
         })
         pathsRef.current = []
-        // Use smaller spacing to generate more lines and points for smoother results
-        const xGap = 8
-        const yGap = 8
+        // Larger gap for performance — especially on Safari/WebKit
+        const xGap = 28
+        const yGap = 28
         const oWidth = width + 200
         const oHeight = height + 30
         const totalLines = Math.ceil(oWidth / xGap)
@@ -306,6 +316,7 @@ export function Waves({
                 ref={svgRef}
                 className="block w-full h-full js-svg"
                 xmlns="http://www.w3.org/2000/svg"
+                style={{ willChange: 'transform', transform: 'translateZ(0)' }}
             />
             <div
                 className="pointer-dot"

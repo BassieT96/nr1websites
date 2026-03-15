@@ -75,12 +75,8 @@ export function FaqSection() {
           }} 
         />
 
-        {/* Ambient Blur Orbs */}
-        <motion.div 
-          animate={{ x: [0, 50, 0], y: [0, -40, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full opacity-30" 
-        />
+        {/* Static ambient glow — no infinite animation for performance */}
+        <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full opacity-20 pointer-events-none" />
         
         {/* Noise overlay */}
         <div className="absolute inset-0 bg-transparent opacity-[0.05] noise-bg mix-blend-overlay" />

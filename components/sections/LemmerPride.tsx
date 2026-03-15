@@ -30,8 +30,8 @@ export function LemmerPride() {
 
             <div className="max-w-[1000px] mx-auto relative z-10 text-center">
                 <motion.div
-                    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 >
@@ -60,8 +60,8 @@ export function LemmerPride() {
                         {stats.map((stat, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
-                                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.3 + i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                                 className="glass-dark border border-border rounded-[24px] p-8 flex flex-col items-center hover-lift group"

@@ -55,12 +55,12 @@ const containerVariants = {
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 32, scale: 0.96, filter: 'blur(6px)' },
+    hidden: { opacity: 0, y: 32, scale: 0.96 },
     visible: {
         opacity: 1,
         y: 0,
         scale: 1,
-        filter: 'blur(0px)',
+        ,
         transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }
     }
 };

@@ -89,8 +89,8 @@ export function ProcessSection() {
                             Hoe we werken
                         </motion.span>
                         <motion.h2
-                            initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
-                            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.1 }}
                             className="text-[44px] md:text-[56px] font-display font-bold text-ink-primary leading-[1.05] mb-8 tracking-[-0.03em]"
@@ -130,8 +130,8 @@ export function ProcessSection() {
                     {steps.map((step, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, y: 48, filter: 'blur(6px)' }}
-                            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                            initial={{ opacity: 0, y: 48 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
                             className="relative group"

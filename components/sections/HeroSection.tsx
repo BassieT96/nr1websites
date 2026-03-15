@@ -61,32 +61,9 @@ BackgroundVideo.displayName = 'BackgroundVideo';
 function FloatingOrbs() {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
-                animate={{
-                    y: [0, -30, 0],
-                    x: [0, 15, 0],
-                    scale: [1, 1.1, 1],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute top-[20%] right-[15%] w-[400px] h-[400px] bg-accent/[0.06] rounded-full blur-[150px]"
-            />
-            <motion.div
-                animate={{
-                    y: [0, 20, 0],
-                    x: [0, -20, 0],
-                    scale: [1, 1.15, 1],
-                }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                className="absolute bottom-[30%] left-[10%] w-[300px] h-[300px] bg-blue-600/[0.04] rounded-full blur-[130px]"
-            />
-            <motion.div
-                animate={{
-                    y: [0, -15, 0],
-                    scale: [1, 1.08, 1],
-                }}
-                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                className="absolute top-[60%] right-[30%] w-[200px] h-[200px] bg-accent/[0.04] rounded-full blur-[100px]"
-            />
+            <div className="absolute top-[20%] right-[15%] w-[400px] h-[400px] bg-accent/[0.06] rounded-full blur-[150px]" />
+            <div className="absolute bottom-[30%] left-[10%] w-[300px] h-[300px] bg-blue-600/[0.04] rounded-full blur-[130px]" />
+            <div className="absolute top-[60%] right-[30%] w-[200px] h-[200px] bg-accent/[0.04] rounded-full blur-[100px]" />
         </div>
     );
 }
@@ -209,8 +186,8 @@ export function HeroSection() {
             >
                 {/* Status Badge */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                     className="mb-12"
                 >
@@ -249,8 +226,8 @@ export function HeroSection() {
 
                 {/* Subheadline */}
                 <motion.p
-                    initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-[560px] text-[17px] md:text-[20px] font-sans font-light text-ink-secondary leading-[1.7] mb-14"
                 >
