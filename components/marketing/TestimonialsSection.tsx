@@ -8,7 +8,7 @@ import { TestimonialCard } from "@/components/ui/SectionBlocks";
 
 export function TestimonialsSection() {
   return (
-    <section className="page-section bg-surface-strong/50">
+    <section className="page-section deferred-section bg-surface-strong/50">
       <SectionHeading
         align="center"
         description="Vertrouwen groeit sneller wanneer bezoekers zien dat design, strategie en techniek aantoonbaar samenkomen in het eindresultaat."

@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/marketing/SectionHeading";
 
 export function AboutSection() {
   return (
-    <section className="page-section" id="over-ons">
+    <section className="page-section deferred-section" id="over-ons">
       <SectionHeading
         description="nr1websites.nl positioneert zich als een moderne webpartner voor bedrijven die kwaliteit willen zonder ruis. De basis is premium, maar bewust nuchter: snel, helder en gebouwd om door te groeien."
         eyebrow="Over ons"

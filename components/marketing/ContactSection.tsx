@@ -5,7 +5,7 @@ import { ContactCTABlock } from "@/components/ui/ProcessAndCTA";
 
 export function ContactSection({ withHeading = true }: { withHeading?: boolean }) {
   return (
-    <section className="page-section bg-background" id="contact">
+    <section className="page-section deferred-section bg-background" id="contact">
       <motion.div 
         initial="hidden"
         whileInView="visible"

@@ -69,7 +69,7 @@ export function TargetAudienceSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="page-section bg-background overflow-hidden relative">
+    <section ref={sectionRef} className="page-section deferred-section bg-background overflow-hidden relative">
       {/* Background Parallax Typography */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
          <motion.div 
