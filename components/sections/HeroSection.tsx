@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useScroll, useTransform, useSpring, useInView, useMotionValue } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePerformanceProfile } from '@/lib/use-performance-profile';
 
 /* ─── Animated Counter Hook ─── */
 function useAnimatedCounter(end: number, duration = 2000) {
@@ -58,7 +59,28 @@ const BackgroundVideo = React.memo(() => {
 BackgroundVideo.displayName = 'BackgroundVideo';
 
 /* ─── Floating Orb Decoration ─── */
-function FloatingOrbs() {
+function FloatingOrbs({ allowHeavyMotion }: { allowHeavyMotion: boolean }) {
+    if (allowHeavyMotion) {
+        return (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <motion.div
+                    className="absolute top-[20%] right-[15%] w-[400px] h-[400px] bg-accent/[0.06] rounded-full blur-[150px]"
+                    animate={{ y: [0, -30, 0], x: [0, 15, 0], scale: [1, 1.1, 1] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.div
+                    className="absolute bottom-[30%] left-[10%] w-[300px] h-[300px] bg-blue-600/[0.04] rounded-full blur-[130px]"
+                    animate={{ y: [0, 20, 0], x: [0, -20, 0], scale: [1, 1.15, 1] }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.div
+                    className="absolute top-[60%] right-[30%] w-[200px] h-[200px] bg-accent/[0.04] rounded-full blur-[100px]"
+                    animate={{ y: [0, -15, 0], scale: [1, 1.08, 1] }}
+                    transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                />
+            </div>
+        );
+    }
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[20%] right-[15%] w-[400px] h-[400px] bg-accent/[0.06] rounded-full blur-[150px]" />
@@ -145,6 +167,7 @@ function SplitText({ text, className, delay = 0 }: { text: string; className?: s
 
 /* ─── Main Hero Section ─── */
 export function HeroSection() {
+    const { allowHeavyMotion } = usePerformanceProfile();
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
     const { scrollYProgress } = useScroll({
@@ -170,7 +193,7 @@ export function HeroSection() {
             </motion.div>
 
             <GridBackground />
-            <FloatingOrbs />
+            <FloatingOrbs allowHeavyMotion={allowHeavyMotion} />
 
             {/* Gradient overlays */}
             <div className="absolute inset-0 z-[1] pointer-events-none">
@@ -186,8 +209,8 @@ export function HeroSection() {
             >
                 {/* Status Badge */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 20, ...(allowHeavyMotion && { filter: 'blur(8px)' }) }}
+                    animate={{ opacity: 1, y: 0, ...(allowHeavyMotion && { filter: 'blur(0px)' }) }}
                     transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                     className="mb-12"
                 >
@@ -226,8 +249,8 @@ export function HeroSection() {
 
                 {/* Subheadline */}
                 <motion.p
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 24, ...(allowHeavyMotion && { filter: 'blur(6px)' }) }}
+                    animate={{ opacity: 1, y: 0, ...(allowHeavyMotion && { filter: 'blur(0px)' }) }}
                     transition={{ duration: 1, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-[560px] text-[17px] md:text-[20px] font-sans font-light text-ink-secondary leading-[1.7] mb-14"
                 >

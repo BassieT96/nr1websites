@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, MotionValue } from "framer-motion";
 import { Check, Zap, Sparkles, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
 // --- Internal Premium Card Component ---
 
@@ -14,36 +15,76 @@ function PremiumPricingCard({
   features,
   isPopular = false,
   index,
+  allowPointerEffects = false,
 }: {
   tier: string;
   price: string;
   features: string[];
   isPopular?: boolean;
   index: number;
+  allowPointerEffects?: boolean;
 }) {
   const icons = [Zap, Sparkles, Rocket];
   const Icon = icons[index % icons.length];
 
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(Infinity);
+  const mouseY = useMotionValue(Infinity);
+
+  const springConfig = { damping: 20, stiffness: 150 };
+  const rotateX = useSpring(useTransform(mouseY, [-200, 200], [5, -5]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-200, 200], [-5, 5]), springConfig);
+
+  const glowBackground = useTransform(
+    [mouseX, mouseY] as MotionValue[],
+    ([x, y]: number[]) =>
+      `radial-gradient(800px circle at ${x + (cardRef.current?.offsetWidth || 0) / 2}px ${y + (cardRef.current?.offsetHeight || 0) / 2}px, rgba(255,255,255,0.06), transparent 40%)`
+  );
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left - rect.width / 2);
+    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  }
+
+  function handleMouseLeave() {
+    mouseX.set(Infinity);
+    mouseY.set(Infinity);
+  }
+
   return (
     <motion.div
+      ref={cardRef}
       variants={{
         hidden: { opacity: 0, y: 40, scale: 0.95 },
-        visible: { 
-          opacity: 1, 
-          y: 0, 
+        visible: {
+          opacity: 1,
+          y: 0,
           scale: 1,
-          transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 } 
+          transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 },
         },
       }}
+      onMouseMove={allowPointerEffects ? handleMouseMove : undefined}
+      onMouseLeave={allowPointerEffects ? handleMouseLeave : undefined}
+      style={allowPointerEffects ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
       className={cn(
         "group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border p-8 lg:p-10 transition-colors duration-700",
-        isPopular 
-          ? "bg-[#0A0A0A]/60 border-accent/30 shadow-[0_30px_100px_rgba(37,99,235,0.15)]" 
+        isPopular
+          ? "bg-[#0A0A0A]/60 border-accent/30 shadow-[0_30px_100px_rgba(37,99,235,0.15)]"
           : "bg-white/[0.02] border-white/10 hover:border-white/20 shadow-2xl"
       )}
     >
       {/* Internal Noise */}
       <div className="absolute inset-0 opacity-[0.03] noise-bg pointer-events-none mix-blend-overlay" />
+
+      {/* Background Glow Follower */}
+      {allowPointerEffects && (
+        <motion.div
+          className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: glowBackground }}
+        />
+      )}
 
       {/* Card Header & Icon */}
       <div className="relative z-10 flex items-start justify-between mb-8">
@@ -56,8 +97,8 @@ function PremiumPricingCard({
         </div>
         <div className={cn(
           "size-12 lg:size-14 rounded-2xl flex items-center justify-center border transition-all duration-700 group-hover:scale-110",
-          isPopular 
-            ? "bg-accent/20 border-accent/40 text-accent" 
+          isPopular
+            ? "bg-accent/20 border-accent/40 text-accent"
             : "bg-white/5 border-white/10 text-white/60"
         )}>
           <Icon className="size-6 lg:size-7" strokeWidth={1.5} />
@@ -90,8 +131,8 @@ function PremiumPricingCard({
       {/* CTA Button */}
       <button className={cn(
         "relative z-10 w-full py-4 rounded-xl font-display text-sm font-medium tracking-tight overflow-hidden transition-all duration-500 group/btn transform-gpu",
-        isPopular 
-          ? "bg-accent text-white hover:bg-accent-strong" 
+        isPopular
+          ? "bg-accent text-white hover:bg-accent-strong"
           : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
       )}>
         <span className="relative z-10 flex items-center justify-center gap-2">
@@ -108,27 +149,73 @@ function PremiumPricingCard({
 // --- Main Section Component ---
 
 export function PricingSection() {
+  const { allowHeavyMotion } = usePerformanceProfile();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const textX1 = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
+  const textX2 = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
+  const y0 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, 40]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const orb2Y = useTransform(scrollYProgress, [0, 1], ["20%", "-10%"]);
+
   return (
-    <section className="relative py-24 lg:py-40 bg-[#050505] overflow-hidden">
+    <section
+      ref={allowHeavyMotion ? containerRef : undefined}
+      className="relative py-24 lg:py-40 bg-[#050505] overflow-hidden"
+    >
       {/* Cinematic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating Atmospheric Orbs */}
-        <div className="absolute -top-[10%] -left-[10%] w-[70vw] h-[70vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.1) 0%, transparent 60%)" }} />
-        <div className="absolute top-[40%] -right-[15%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(179,136,255,0.1) 0%, transparent 60%)" }} />
-        
+        {allowHeavyMotion ? (
+          <>
+            <motion.div
+              className="absolute -top-[10%] -left-[10%] w-[70vw] h-[70vw]"
+              style={{ y: backgroundY, background: "radial-gradient(circle, rgba(54,98,227,0.1) 0%, transparent 60%)" }}
+            />
+            <motion.div
+              className="absolute top-[40%] -right-[15%] w-[60vw] h-[60vw]"
+              style={{ y: orb2Y, background: "radial-gradient(circle, rgba(179,136,255,0.1) 0%, transparent 60%)" }}
+            />
+          </>
+        ) : (
+          <>
+            <div className="absolute -top-[10%] -left-[10%] w-[70vw] h-[70vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.1) 0%, transparent 60%)" }} />
+            <div className="absolute top-[40%] -right-[15%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(179,136,255,0.1) 0%, transparent 60%)" }} />
+          </>
+        )}
+
         {/* Subtle Grid overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" 
-          style={{ 
-            backgroundImage: "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)", 
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
             backgroundSize: "80px 80px",
-            maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)"
-          }} 
+            maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+          }}
         />
-        
+
         {/* Grain overlay */}
         <div className="absolute inset-0 noise-bg opacity-[0.2] mix-blend-overlay" />
       </div>
 
+      {/* Parallax background text (heavy motion only) */}
+      {allowHeavyMotion && (
+        <div className="absolute inset-0 flex flex-col justify-center pointer-events-none select-none overflow-hidden opacity-[0.02]">
+          <motion.span style={{ x: textX1 }} className="text-[20vw] font-black text-white whitespace-nowrap leading-none">
+            TARIEVEN • TARIEVEN • TARIEVEN
+          </motion.span>
+          <motion.span style={{ x: textX2 }} className="text-[20vw] font-black text-white whitespace-nowrap leading-none mt-4">
+            INVESTERING • INVESTERING
+          </motion.span>
+        </div>
+      )}
 
       <div className="container-content relative z-10 mx-auto px-6 max-w-7xl">
         <header className="mb-16 lg:mb-24 text-center lg:text-left">
@@ -138,8 +225,11 @@ export function PricingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-[10px] uppercase tracking-widest mb-6">
-              Helder & Transparant
+            <span className={cn(
+              "inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-[10px] uppercase tracking-widest mb-6",
+              allowHeavyMotion && "backdrop-blur-md"
+            )}>
+              Helder &amp; Transparant
             </span>
             <h2 className="text-5xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.9] lg:-ml-1">
               Investering <br /> in jouw <span className="text-accent italic font-light">groei</span>
@@ -157,50 +247,109 @@ export function PricingSection() {
           </motion.div>
         </header>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-        >
-          <PremiumPricingCard
-            index={0}
-            tier="Starter Site"
-            price="€1.490"
-            features={[
-              "Professioneel responsive design",
-              "Snelle Next.js architectuur",
-              "SEO-basis setup",
-              "Contact & offerte formulier",
-              "Lokale Google koppeling"
-            ]}
-          />
-          <PremiumPricingCard
-            index={1}
-            isPopular
-            tier="Groei Site"
-            price="€2.950"
-            features={[
-              "Premium Awwwards style animaties",
-              "Uitgebreide SEO-optimalisatie",
-              "Diensten & Projecten landingspagina's",
-              "Basis conversie-copywriting",
-              "Integratie web analytics"
-            ]}
-          />
-          <PremiumPricingCard
-            index={2}
-            tier="Leadmachine Pro"
-            price="€4.850"
-            features={[
-              "Volledige conversie copywriting",
-              "Lokale SEO bestemmingsclusters",
-              "Complexe funnel integraties",
-              "Maatwerk componenten bibliotheek",
-              "Prioriteit in support & iteraties"
-            ]}
-          />
-        </motion.div>
+        {allowHeavyMotion ? (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <motion.div style={{ y: y0 }}>
+              <PremiumPricingCard
+                index={0}
+                tier="Starter Site"
+                price="€1.490"
+                allowPointerEffects={allowHeavyMotion}
+                features={[
+                  "Professioneel responsive design",
+                  "Snelle Next.js architectuur",
+                  "SEO-basis setup",
+                  "Contact & offerte formulier",
+                  "Lokale Google koppeling",
+                ]}
+              />
+            </motion.div>
+            <motion.div style={{ y: y1 }}>
+              <PremiumPricingCard
+                index={1}
+                isPopular
+                tier="Groei Site"
+                price="€2.950"
+                allowPointerEffects={allowHeavyMotion}
+                features={[
+                  "Premium Awwwards style animaties",
+                  "Uitgebreide SEO-optimalisatie",
+                  "Diensten & Projecten landingspagina's",
+                  "Basis conversie-copywriting",
+                  "Integratie web analytics",
+                ]}
+              />
+            </motion.div>
+            <motion.div style={{ y: y2 }}>
+              <PremiumPricingCard
+                index={2}
+                tier="Leadmachine Pro"
+                price="€4.850"
+                allowPointerEffects={allowHeavyMotion}
+                features={[
+                  "Volledige conversie copywriting",
+                  "Lokale SEO bestemmingsclusters",
+                  "Complexe funnel integraties",
+                  "Maatwerk componenten bibliotheek",
+                  "Prioriteit in support & iteraties",
+                ]}
+              />
+            </motion.div>
+          </motion.div>
+        ) : (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <PremiumPricingCard
+              index={0}
+              tier="Starter Site"
+              price="€1.490"
+              allowPointerEffects={false}
+              features={[
+                "Professioneel responsive design",
+                "Snelle Next.js architectuur",
+                "SEO-basis setup",
+                "Contact & offerte formulier",
+                "Lokale Google koppeling",
+              ]}
+            />
+            <PremiumPricingCard
+              index={1}
+              isPopular
+              tier="Groei Site"
+              price="€2.950"
+              allowPointerEffects={false}
+              features={[
+                "Premium Awwwards style animaties",
+                "Uitgebreide SEO-optimalisatie",
+                "Diensten & Projecten landingspagina's",
+                "Basis conversie-copywriting",
+                "Integratie web analytics",
+              ]}
+            />
+            <PremiumPricingCard
+              index={2}
+              tier="Leadmachine Pro"
+              price="€4.850"
+              allowPointerEffects={false}
+              features={[
+                "Volledige conversie copywriting",
+                "Lokale SEO bestemmingsclusters",
+                "Complexe funnel integraties",
+                "Maatwerk componenten bibliotheek",
+                "Prioriteit in support & iteraties",
+              ]}
+            />
+          </motion.div>
+        )}
       </div>
     </section>
   );

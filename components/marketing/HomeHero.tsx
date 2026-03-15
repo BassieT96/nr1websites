@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
 import { ArrowRight } from "lucide-react";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { ButtonLink } from "@/components/ui/Button";
 import { Waves } from "@/components/ui/wave-background";
 import { WordCycler } from "@/components/ui/word-cycler";
@@ -35,6 +34,12 @@ export function HomeHero() {
     ? { variants: containerVariants, initial: "hidden" as const, animate: "show" as const }
     : {};
 
+  const { scrollY } = useScroll();
+  const kickerYRaw = useTransform(scrollY, [0, 500], [0, -40]);
+  const heroYRaw = useTransform(scrollY, [0, 500], [0, -20]);
+  const kickerY = allowHeavyMotion ? kickerYRaw : undefined;
+  const heroY = allowHeavyMotion ? heroYRaw : undefined;
+
   return (
     <section className="relative overflow-hidden min-h-[90vh] flex items-center py-[var(--space-5xl)] lg:py-[var(--space-6xl, 12rem)]">
       {/* Animated Wave Background */}
@@ -48,18 +53,19 @@ export function HomeHero() {
         />
       </div>
 
-      {/* Light Glow Effect — radial-gradient, no blur filter */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none z-[1]"
-        style={{ background: "radial-gradient(ellipse at center, rgba(0,191,166,0.08) 0%, transparent 70%)" }} />
+      {/* Light Glow Effect */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none z-[1]" />
 
       <motion.div
         {...animationProps}
+        style={{ y: heroY }}
         className="container-content mx-auto px-6 relative z-10 text-center flex flex-col items-center"
       >
         {/* Trust Kicker */}
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-border bg-surface/90 shadow-sm mb-10 transition-colors hover:border-primary/30"
+          style={{ y: kickerY }}
+          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-border bg-surface/80 backdrop-blur-md shadow-sm mb-10 transition-colors hover:border-primary/30"
         >
           <span className="w-2 size-2 rounded-full bg-success shadow-[0_0_10px_rgba(16,185,129,0.3)]" />
           <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-muted-strong font-bold">Web Agency Lemmer</span>
@@ -69,7 +75,7 @@ export function HomeHero() {
         <motion.h1 variants={itemVariants} className="type-display-hero text-foreground mb-8 max-w-5xl mx-auto text-balance leading-[1.05]">
           De <WordCycler words={["premium", "strakke", "slimste", "snelste", "mooiste"]} className="mx-[0.2em]" /> website die voor je verkoopt.
         </motion.h1>
-        
+
         <motion.p variants={itemVariants} className="type-body-lead text-muted max-w-2xl mx-auto mb-14 text-pretty font-medium leading-relaxed">
           Wij ontwerpen en bouwen snelle, moderne websites voor ondernemers die klaar zijn voor de volgende stap. Geen ruis, alleen resultaat.
         </motion.p>
@@ -97,7 +103,7 @@ export function HomeHero() {
         )}
 
         {/* Trust Microcopy */}
-        <motion.p variants={itemVariants} className="text-[13px] text-muted-strong font-semibold flex items-center gap-3 bg-surface-strong/50 px-6 py-2 rounded-full border border-border/40">
+        <motion.p variants={itemVariants} className="text-[13px] text-muted-strong font-semibold flex items-center gap-3 bg-surface-strong/30 px-6 py-2 rounded-full backdrop-blur-sm border border-border/40">
           <span className="flex size-5 items-center justify-center rounded-full bg-success/10 text-success">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />

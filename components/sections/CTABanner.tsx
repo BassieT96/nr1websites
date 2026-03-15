@@ -4,11 +4,14 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { BorderBeam } from '../ui/BorderBeam';
+import { usePerformanceProfile } from '@/lib/use-performance-profile';
 
 /**
  * Premium CTA Banner with organic mesh gradients and smooth border animations.
  */
 export function CTABanner() {
+    const { allowHeavyMotion } = usePerformanceProfile();
+
     return (
         <section className="py-20 px-6 bg-canvas relative overflow-hidden grain">
             <div className="max-w-[1400px] mx-auto relative z-20">
@@ -29,9 +32,31 @@ export function CTABanner() {
 
                     {/* Mesh Gradient Background */}
                     <div className="absolute inset-0 pointer-events-none select-none z-0">
-                        <div className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-accent/15 rounded-full blur-[140px]" />
-                        <div className="absolute bottom-[-15%] right-[-5%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[120px]" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] bg-accent/5 rounded-full blur-[100px] opacity-50" />
+                        {allowHeavyMotion ? (
+                            <>
+                                <motion.div
+                                    className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-accent/15 rounded-full blur-[140px]"
+                                    animate={{ x: [0, 100, -50, 0], y: [0, -50, 100, 0], scale: [1, 1.2, 0.9, 1] }}
+                                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                                />
+                                <motion.div
+                                    className="absolute bottom-[-15%] right-[-5%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[120px]"
+                                    animate={{ x: [0, -80, 40, 0], y: [0, 120, -60, 0], scale: [1, 1.1, 1.2, 1] }}
+                                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                                />
+                                <motion.div
+                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] bg-accent/5 rounded-full blur-[100px] opacity-50"
+                                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <div className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-accent/15 rounded-full blur-[140px]" />
+                                <div className="absolute bottom-[-15%] right-[-5%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[120px]" />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] bg-accent/5 rounded-full blur-[100px] opacity-50" />
+                            </>
+                        )}
                     </div>
 
                     {/* Content */}

@@ -1,11 +1,12 @@
 "use client";
 
-import { motion, useTransform, useScroll } from "framer-motion";
+import { motion, useTransform, useScroll, useMotionValue, useSpring } from "framer-motion";
 import { ButtonLink } from "@/components/ui/Button";
 import type { CommercialPage } from "@/content/types";
 import React, { useRef } from "react";
 import { Waves } from "@/components/ui/wave-background";
 import { usePerformanceProfile } from "@/lib/use-performance-profile";
+import { cn } from "@/lib/utils";
 
 const stats = [
   { value: "40+", label: "Websites gebouwd" },
@@ -15,7 +16,7 @@ const stats = [
 
 export function WebsitesHero({ page }: { page: CommercialPage }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { allowHeavyMotion } = usePerformanceProfile();
+  const { allowHeavyMotion, allowPointerEffects } = usePerformanceProfile();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -25,11 +26,41 @@ export function WebsitesHero({ page }: { page: CommercialPage }) {
   const titleOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const titleY = useTransform(scrollYProgress, [0, 0.5], [0, -40]);
 
+  // Mouse glow — always create (hooks can't be conditional)
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { damping: 50, stiffness: 400 });
+  const springY = useSpring(mouseY, { damping: 50, stiffness: 400 });
+
+  const mouseGlowBg = useTransform(
+    [springX, springY] as const,
+    ([x, y]: number[]) =>
+      `radial-gradient(700px circle at ${x}px ${y}px, rgba(54,98,227,0.07), transparent 40%)`
+  );
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center pt-32 pb-24 overflow-hidden bg-[#020202]"
+      onMouseMove={allowPointerEffects ? handleMouseMove : undefined}
+      className={cn(
+        "relative min-h-screen flex items-center justify-center pt-32 pb-24 overflow-hidden bg-[#020202]",
+        allowPointerEffects && "group"
+      )}
     >
+      {/* Mouse glow */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
+          style={{ background: mouseGlowBg }}
+        />
+      </div>
+
       {/* Wave background */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <Waves
@@ -62,9 +93,9 @@ export function WebsitesHero({ page }: { page: CommercialPage }) {
           {/* Headline */}
           <motion.h1
             style={allowHeavyMotion ? { opacity: titleOpacity, y: titleY } : undefined}
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            initial={{ opacity: 0, y: 32, ...(allowHeavyMotion && { filter: "blur(16px)" }) }}
+            animate={{ opacity: 1, y: 0, ...(allowHeavyMotion && { filter: "blur(0px)" }) }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
             className="text-[clamp(2.75rem,8vw,7.5rem)] font-display font-semibold text-white tracking-[-0.04em] leading-[0.88] mb-8"
           >
             Websites die{" "}
