@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+// Safari note: useScroll+useSpring used for carousel rotationOverride only (scroll-sync feature)
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { ThreeDPhotoCarousel, CarouselCard } from "@/components/ui/3d-carousel";
@@ -19,8 +20,6 @@ export function PortfolioSection() {
   const rawRotation = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const rotation = useSpring(rawRotation, { stiffness: 400, damping: 90 });
 
-  const bgTextX = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
-  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   const cases: CarouselCard[] = [
     {
@@ -86,10 +85,7 @@ export function PortfolioSection() {
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
-          <motion.div 
-            style={{ y: orbY }}
-            className="absolute top-[10%] -right-[10%] w-[50vw] h-[50vw] rounded-full bg-accent/5 blur-[120px] lg:blur-[180px] opacity-40" 
-          />
+          <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
           <div className="absolute inset-0 noise-bg opacity-[0.03] mix-blend-multiply" />
           <div className="absolute inset-0 opacity-[0.15]" 
             style={{ 
@@ -99,17 +95,8 @@ export function PortfolioSection() {
           />
         </div>
 
-        {/* Large Parallax Background Text */}
-        <div className="absolute top-[15%] left-0 pointer-events-none select-none opacity-[0.04]">
-          <motion.span 
-            style={{ x: bgTextX }} 
-            className="text-[25vw] font-black text-zinc-900 whitespace-nowrap leading-none"
-          >
-            PROJECT • CASE • WORK
-          </motion.span>
-        </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-64 lg:pt-80">
+<div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-64 lg:pt-80">
           <header className="mb-40 lg:mb-64">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

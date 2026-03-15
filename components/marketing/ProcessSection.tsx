@@ -36,8 +36,8 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
       <div className="absolute inset-0 pointer-events-none">
         {/* Fluid Mesh Ambience */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-[10%] left-[5%] w-[40vw] h-[40vw] bg-primary/[0.03] blur-[120px] rounded-full mix-blend-multiply" />
-          <div className="absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] bg-accent/[0.03] blur-[100px] rounded-full mix-blend-multiply" />
+          <div className="absolute top-[10%] left-[5%] w-[50vw] h-[50vw]" style={{ background: "radial-gradient(circle, rgba(24,24,27,0.04) 0%, transparent 60%)" }} />
+          <div className="absolute bottom-[10%] right-[10%] w-[45vw] h-[45vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.04) 0%, transparent 60%)" }} />
         </div>
 
         {/* Blueprint Markers */}

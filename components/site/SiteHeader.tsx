@@ -45,8 +45,8 @@ export function SiteHeader() {
       <Container>
         <div className={cn(
           "flex items-center justify-between gap-4 px-4 py-3 md:px-6 rounded-full transition-all duration-500",
-          isScrolled 
-            ? "bg-white/70 border border-border/50 shadow-sm backdrop-blur-2xl" 
+          isScrolled
+            ? "bg-white/95 border border-border/50 shadow-sm"
             : "bg-transparent border border-transparent shadow-none"
         )}>
           <Link

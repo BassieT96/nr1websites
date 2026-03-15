@@ -43,7 +43,7 @@ export function FaqSection() {
             maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
           }}
         />
-        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-primary/8 blur-[120px] rounded-full opacity-20" />
+        <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.08) 0%, transparent 60%)" }} />
       </div>
 
       <motion.div

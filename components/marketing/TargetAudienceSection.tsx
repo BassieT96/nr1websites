@@ -90,7 +90,7 @@ export function TargetAudienceSection() {
       >
         <div className="text-center mb-24 max-w-3xl mx-auto relative flex flex-col items-center">
           {/* Ambient Glow behind header */}
-          <div className="absolute left-1/2 top-1/2 -z-10 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]" />
+          <div className="absolute left-1/2 top-1/2 -z-10 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.06) 0%, transparent 65%)" }} />
           
           <div className="overflow-hidden pb-2 mb-4">
             <motion.span variants={{ hidden: { y: "120%" }, visible: { y: "0%", transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="section-kicker italic text-muted-strong block mb-0">
@@ -191,7 +191,7 @@ export function TargetAudienceSection() {
                          <div className={cn("size-14 rounded-2xl border flex items-center justify-center shadow-lg", item.accent)}>
                            <item.icon className="size-6" />
                          </div>
-                         <span className="font-mono text-[0.67rem] uppercase tracking-[0.2em] text-white/60 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                         <span className="font-mono text-[0.67rem] uppercase tracking-[0.2em] text-white/60 bg-black/60 px-4 py-2 rounded-full border border-white/10">
                            Doelgroep 0{i + 1}
                          </span>
                        </div>

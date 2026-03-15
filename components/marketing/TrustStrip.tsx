@@ -18,7 +18,7 @@ export function TrustStrip() {
           transition: { staggerChildren: 0.1, delayChildren: 0.2 } 
         }
       }}
-      className="w-full border-y border-border bg-surface-strong/40 py-12 relative overflow-hidden backdrop-blur-md"
+      className="w-full border-y border-border bg-surface-strong/60 py-12 relative overflow-hidden"
     >
       <div className="container-content mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
         

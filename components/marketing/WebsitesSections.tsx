@@ -33,7 +33,7 @@ export function WebsitesBento() {
             className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl bg-[#3662e3]/[0.05] border border-[#3662e3]/12 p-8 lg:p-10 group"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-[#3662e3]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-52 h-52 bg-[#3662e3]/12 blur-[70px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.15) 0%, transparent 65%)" }} />
             <div className="relative z-10 h-full flex flex-col justify-between">
               <TrendingUp className="size-6 text-[#3662e3]/40" strokeWidth={1.5} />
               <div>
@@ -335,7 +335,7 @@ export function WebsitesDarkCTA() {
         >
           {/* Glow */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-40 bg-[#3662e3]/12 blur-[80px] rounded-full" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px]" style={{ background: "radial-gradient(ellipse at center, rgba(54,98,227,0.14) 0%, transparent 65%)" }} />
           </div>
 
           <div className="relative z-10 max-w-xl mx-auto">

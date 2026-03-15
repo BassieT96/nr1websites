@@ -113,8 +113,8 @@ export function PricingSection() {
       {/* Cinematic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating Atmospheric Orbs */}
-        <div className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-accent/10 blur-[120px] lg:blur-[180px] opacity-40 mix-blend-screen" />
-        <div className="absolute top-[40%] -right-[15%] w-[50vw] h-[50vw] rounded-full bg-[#B388FF]/10 blur-[120px] lg:blur-[180px] opacity-30 mix-blend-screen" />
+        <div className="absolute -top-[10%] -left-[10%] w-[70vw] h-[70vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.1) 0%, transparent 60%)" }} />
+        <div className="absolute top-[40%] -right-[15%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(179,136,255,0.1) 0%, transparent 60%)" }} />
         
         {/* Subtle Grid overlay */}
         <div className="absolute inset-0 opacity-[0.03]" 
@@ -138,7 +138,7 @@ export function PricingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-[10px] uppercase tracking-widest mb-6 backdrop-blur-md">
+            <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-[10px] uppercase tracking-widest mb-6">
               Helder & Transparant
             </span>
             <h2 className="text-5xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.9] lg:-ml-1">
