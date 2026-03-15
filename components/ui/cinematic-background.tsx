@@ -2,9 +2,26 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 export function CinematicBackground({ className }: { className?: string }) {
+  const { allowHeavyMotion } = usePerformanceProfile();
+
+  if (!allowHeavyMotion) {
+    return (
+      <div className={cn("fixed inset-0 -z-10 overflow-hidden pointer-events-none", className)}>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 15% 20%, rgba(54,98,227,0.06) 0%, transparent 35%), radial-gradient(circle at 85% 25%, rgba(24,24,27,0.05) 0%, transparent 32%), radial-gradient(circle at 30% 85%, rgba(54,98,227,0.04) 0%, transparent 30%)",
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={cn("fixed inset-0 -z-10 overflow-hidden pointer-events-none", className)}>
       {/* 1. Subtle Grain Overlay */}

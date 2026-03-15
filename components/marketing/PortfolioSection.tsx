@@ -1,14 +1,62 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import { ButtonLink } from "@/components/ui/Button";
+// Safari note: useScroll+useSpring used for carousel rotationOverride only (scroll-sync feature)
 import { ThreeDPhotoCarousel, CarouselCard } from "@/components/ui/3d-carousel";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
+
+const cases: CarouselCard[] = [
+  {
+    title: "FitFabriek Coaching Platform",
+    description: "Een supersnelle Next.js website voor een fysio- en coachingpraktijk met focus op conversie.",
+    category: "Webdesign & SEO",
+    href: "/cases/fitfabriek",
+    image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2669&auto=format&fit=crop",
+  },
+  {
+    title: "Studio Flux Architecten",
+    description: "Een visueel rijke portfolio website met geavanceerde animaties voor een architectenbureau.",
+    category: "Creative Portfolio",
+    href: "/cases/studio-flux",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop",
+  },
+  {
+    title: "Atelier Noord Conceptstore",
+    description: "Een moderne e-commerce ervaring met een focus op lokale vindbaarheid en merkbeleving.",
+    category: "E-Commerce",
+    href: "/cases/atelier-noord",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop",
+  },
+  {
+    title: "Noord-West Makelaardij",
+    description: "Een krachtig platform voor makelaars met directe koppelingen en een moderne interface.",
+    category: "Real Estate",
+    href: "/cases/noord-west",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop",
+  },
+  {
+    title: "Lemmer Watersport",
+    description: "Beleving en techniek komen samen in deze snelle website voor een lokale watersport specialist.",
+    category: "Hospitality & Leisure",
+    href: "/cases/lemmer-watersport",
+    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2670&auto=format&fit=crop",
+  },
+  {
+    title: "Vriesland Logistiek",
+    description: "Een strakke, corporate website voor een toonaangevend transportbedrijf in de regio.",
+    category: "Corporate Design",
+    href: "/cases/vriesland-logistiek",
+    image: "https://images.unsplash.com/photo-1519003722824-192d992a605b?q=80&w=2670&auto=format&fit=crop",
+  },
+];
 
 export function PortfolioSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { allowHeavyMotion } = usePerformanceProfile();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -19,77 +67,61 @@ export function PortfolioSection() {
   const rawRotation = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const rotation = useSpring(rawRotation, { stiffness: 400, damping: 90 });
 
-  const bgTextX = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
-  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
-  const cases: CarouselCard[] = [
-    {
-      title: "FitFabriek Coaching Platform",
-      description: "Een supersnelle Next.js website voor een fysio- en coachingpraktijk met focus op conversie.",
-      category: "Webdesign & SEO",
-      href: "/cases/fitfabriek",
-      image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2669&auto=format&fit=crop",
-    },
-    {
-      title: "Studio Flux Architecten",
-      description: "Een visueel rijke portfolio website met geavanceerde animaties voor een architectenbureau.",
-      category: "Creative Portfolio",
-      href: "/cases/studio-flux",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop",
-    },
-    {
-      title: "Atelier Noord Conceptstore",
-      description: "Een moderne e-commerce ervaring met een focus op lokale vindbaarheid en merkbeleving.",
-      category: "E-Commerce",
-      href: "/cases/atelier-noord",
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop",
-    },
-    {
-        title: "Noord-West Makelaardij",
-        description: "Een krachtig platform voor makelaars met directe koppelingen en een moderne interface.",
-        category: "Real Estate",
-        href: "/cases/noord-west",
-        image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop",
-    },
-    {
-        title: "Lemmer Watersport",
-        description: "Beleving en techniek komen samen in deze snelle website voor een lokale watersport specialist.",
-        category: "Hospitality & Leisure",
-        href: "/cases/lemmer-watersport",
-        image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2670&auto=format&fit=crop",
-    },
-    {
-      title: "Vriesland Logistiek",
-      description: "Een strakke, corporate website voor een toonaangevend transportbedrijf in de regio.",
-      category: "Corporate Design",
-      href: "/cases/vriesland-logistiek",
-      image: "https://images.unsplash.com/photo-1519003722824-192d992a605b?q=80&w=2670&auto=format&fit=crop",
-    },
-    {
-      title: "Brasserie de Fries",
-      description: "Lokale gastronomie in een modern jasje, met een focus op online reserveringen.",
-      category: "Food & Beverage",
-      href: "/cases/brasserie-de-fries",
-      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2670&auto=format&fit=crop",
-    },
-    {
-      title: "Kaasschip Lemmer",
-      description: "Een nostalgische ervaring gecombineerd met moderne techniek voor een iconische winkel.",
-      category: "Marketing & Sales",
-      href: "/cases/kaasschip",
-      image: "https://images.unsplash.com/photo-1486427944299-d1955d23e32d?q=80&w=2670&auto=format&fit=crop",
-    }
-  ];
+  if (!allowHeavyMotion) {
+    return (
+      <section className="deferred-section relative border-y border-zinc-100 bg-white py-24 lg:py-32">
+        <div className="container-content mx-auto px-6">
+          <header className="mb-16 lg:mb-20">
+            <div className="mb-8 flex items-center gap-3">
+              <div className="h-px w-10 bg-accent" />
+              <span className="font-mono text-sm uppercase tracking-[0.3em] text-accent">
+                Selected Works
+              </span>
+            </div>
+            <h2 className="text-4xl font-display font-medium tracking-tight text-zinc-900 lg:text-7xl">
+              Werk dat <span className="text-accent italic">impact</span> maakt.
+            </h2>
+          </header>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {cases.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group overflow-hidden rounded-[2rem] border border-zinc-200 bg-zinc-950 text-white transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    width={1200}
+                    height={900}
+                    sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="space-y-3 p-6">
+                  <span className="block font-mono text-xs uppercase tracking-[0.25em] text-white/45">
+                    {item.category}
+                  </span>
+                  <h3 className="text-2xl font-display font-medium text-white">{item.title}</h3>
+                  <p className="text-sm leading-relaxed text-white/65">{item.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section ref={containerRef} className="relative h-[200vh] bg-white border-y border-zinc-100">
+    <section ref={containerRef} className="deferred-section relative h-[200vh] bg-white border-y border-zinc-100">
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
-          <motion.div 
-            style={{ y: orbY }}
-            className="absolute top-[10%] -right-[10%] w-[50vw] h-[50vw] rounded-full bg-accent/5 blur-[120px] lg:blur-[180px] opacity-40" 
-          />
+          <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
           <div className="absolute inset-0 noise-bg opacity-[0.03] mix-blend-multiply" />
           <div className="absolute inset-0 opacity-[0.15]" 
             style={{ 
@@ -99,17 +131,8 @@ export function PortfolioSection() {
           />
         </div>
 
-        {/* Large Parallax Background Text */}
-        <div className="absolute top-[15%] left-0 pointer-events-none select-none opacity-[0.04]">
-          <motion.span 
-            style={{ x: bgTextX }} 
-            className="text-[25vw] font-black text-zinc-900 whitespace-nowrap leading-none"
-          >
-            PROJECT • CASE • WORK
-          </motion.span>
-        </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-64 lg:pt-80">
+<div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-64 lg:pt-80">
           <header className="mb-40 lg:mb-64">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

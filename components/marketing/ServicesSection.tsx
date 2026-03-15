@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, ShieldCheck, MapPin, TrendingUp } from "lucide-react";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 type ServicesSectionProps = {
@@ -19,6 +20,7 @@ export function ServicesSection({
   title,
 }: ServicesSectionProps) {
   const targetRef = useRef<HTMLDivElement>(null);
+  const { allowHeavyMotion } = usePerformanceProfile();
   
   const resolvedEyebrow = eyebrow ?? (includeAll ? "Diensten & Resultaat" : "Bewijsbare Impact");
   const resolvedTitle =
@@ -33,28 +35,32 @@ export function ServicesSection({
       title: "Sneller Laden",
       description: "Next.js architectuur zorgt voor supersnelle laadtijden. Bezoekers haken niet af en Google beloont je site met een hogere ranking.",
       color: "bg-[#00E5FF]",
-      accent: "text-[#00E5FF]"
+      accent: "text-[#00E5FF]",
+      hex: "#00E5FF",
     },
     {
       icon: ShieldCheck,
       title: "Premium Merk",
       description: "Overtuig potentiële klanten direct met een design dat autoriteit en professionaliteit uitstraalt, waardoor ze sneller voor jou kiezen.",
       color: "bg-[#B388FF]",
-      accent: "text-[#B388FF]"
+      accent: "text-[#B388FF]",
+      hex: "#B388FF",
     },
     {
       icon: MapPin,
       title: "Lokaal Gevonden",
       description: "Technische SEO specifiek ingericht voor lokale dominantie, zodat jij bovenaan de zoekresultaten in Lemmer en Friesland verschijnt.",
       color: "bg-[#00E676]",
-      accent: "text-[#00E676]"
+      accent: "text-[#00E676]",
+      hex: "#00E676",
     },
     {
       icon: TrendingUp,
       title: "Meer Aanvragen",
       description: "Strategische CTA's en frictieloze funnels zorgen ervoor dat bezoekers soepeler veranderen in kwalitatieve warme leads.",
       color: "bg-[#FFAB00]",
-      accent: "text-[#FFAB00]"
+      accent: "text-[#FFAB00]",
+      hex: "#FFAB00",
     }
   ];
 
@@ -65,9 +71,47 @@ export function ServicesSection({
 
   // Moves the horizontal track leftwards based on scroll depth (5 slides total now)
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+
+  if (!allowHeavyMotion) {
+    return (
+      <section className="deferred-section bg-[#050505] px-6 py-24 lg:py-32">
+        <div className="container-content mx-auto">
+          <div className="mb-14 max-w-3xl">
+            <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/5 px-5 py-2 font-mono text-xs uppercase tracking-widest text-white/50">
+              {resolvedEyebrow}
+            </span>
+            <h2 className="mb-6 text-4xl font-display font-medium tracking-tight text-white lg:text-6xl">
+              {resolvedTitle}
+            </h2>
+            <p className="text-lg leading-relaxed text-white/55">{resolvedDescription}</p>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {services.map((service, index) => (
+              <article
+                key={service.title}
+                className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+              >
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/40">
+                    <service.icon className={cn("h-7 w-7", service.accent)} strokeWidth={1.8} />
+                  </div>
+                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/35">
+                    Pijler 0{index + 1}
+                  </span>
+                </div>
+                <h3 className="mb-4 text-3xl font-display font-semibold text-white">{service.title}</h3>
+                <p className="text-base leading-relaxed text-white/60">{service.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
   
   return (
-    <section ref={targetRef} className="relative h-[500vh] bg-[#050505]">
+    <section ref={targetRef} className="deferred-section relative h-[500vh] bg-[#050505]">
       <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden bg-[#050505]">
         
         {/* Ambient Dark Tech Background (Static Grain + Grid) */}
@@ -86,7 +130,7 @@ export function ServicesSection({
           {/* Slide 0: Intro Header now integrated into the flow */}
           <div className="w-screen h-full flex flex-col justify-center px-6 lg:px-24">
             <div className="container-content mx-auto max-w-7xl w-full">
-               <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-xs uppercase tracking-widest mb-6 backdrop-blur-md">
+               <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-xs uppercase tracking-widest mb-6">
                  {resolvedEyebrow}
                </span>
                <h2 className="font-display font-medium text-5xl lg:text-7xl lg:text-[5.5rem] text-white max-w-5xl tracking-tight leading-[1.05] drop-shadow-lg">
@@ -112,21 +156,20 @@ export function ServicesSection({
                   0{index + 1}
                 </div>
 
-                {/* Glowing Abstract Orb for this specific slide */}
-                <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] lg:w-[35vw] h-[60vw] lg:h-[35vw] rounded-full blur-[100px] lg:blur-[160px] opacity-[0.15] lg:opacity-20 pointer-events-none z-0 mix-blend-screen", service.color)} />
+                {/* Glowing Abstract Orb — radial-gradient, no blur filter */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] pointer-events-none z-0"
+                  style={{ background: `radial-gradient(circle at center, ${service.hex}26 0%, transparent 60%)` }} />
 
-                {/* Glassmorphism Presentation Card */}
-                <div className="relative z-10 w-full max-w-5xl rounded-[2.5rem] bg-white/[0.02] border border-white/10 backdrop-blur-2xl p-10 lg:p-20 shadow-[0_40px_80px_rgba(0,0,0,0.8)] flex flex-col md:flex-row gap-10 lg:gap-16 items-center lg:items-center group hover:border-white/20 transition-all duration-700 overflow-hidden h-[60vh] lg:h-auto min-h-[400px]">
+                {/* Service Card */}
+                <div className="relative z-10 w-full max-w-5xl rounded-[2.5rem] bg-black/40 border border-white/10 p-10 lg:p-20 shadow-[0_40px_80px_rgba(0,0,0,0.8)] flex flex-col md:flex-row gap-10 lg:gap-16 items-center lg:items-center group hover:border-white/20 transition-all duration-700 overflow-hidden h-[60vh] lg:h-auto min-h-[400px]">
                    
                    {/* Card Internal Noise */}
                    <div className="absolute inset-0 opacity-[0.02] noise-bg pointer-events-none mix-blend-overlay" />
                    
                    {/* Tech Icon Box */}
                    <div className="shrink-0 relative">
-                     {/* Hover intense glow */}
-                     <div className={cn("absolute inset-0 blur-2xl opacity-30 transition-opacity duration-700 group-hover:opacity-70 scale-150 rounded-full", service.color)} />
                      {/* The icon container */}
-                     <div className="relative size-28 lg:size-40 rounded-[2rem] bg-black/50 border border-white/10 flex items-center justify-center backdrop-blur-xl shadow-2xl overflow-hidden transition-transform duration-700 group-hover:scale-105">
+                     <div className="relative size-28 lg:size-40 rounded-[2rem] bg-black/50 border border-white/10 flex items-center justify-center shadow-2xl overflow-hidden transition-transform duration-700 group-hover:scale-105">
                        {/* Top gleam */}
                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.15] to-transparent pointer-events-none" />
                        <service.icon className={cn("size-12 lg:size-16 drop-shadow-lg", service.accent)} strokeWidth={1.5} />

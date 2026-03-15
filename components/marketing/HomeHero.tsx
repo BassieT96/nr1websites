@@ -2,13 +2,15 @@
 
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import { motion, Variants, useScroll, useTransform } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ButtonLink } from "@/components/ui/Button";
 import { Waves } from "@/components/ui/wave-background";
 import { WordCycler } from "@/components/ui/word-cycler";
 import { siteConfig } from "@/content";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
 export function HomeHero() {
+  const { allowHeavyMotion } = usePerformanceProfile();
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -22,16 +24,16 @@ export function HomeHero() {
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 300, damping: 25 } 
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 25 }
     },
   };
 
-  const { scrollY } = useScroll();
-  const kickerY = useTransform(scrollY, [0, 500], [0, -40]);
-  const heroY = useTransform(scrollY, [0, 500], [0, -20]);
+  const animationProps = allowHeavyMotion
+    ? { variants: containerVariants, initial: "hidden" as const, animate: "show" as const }
+    : {};
 
   return (
     <section className="relative overflow-hidden min-h-[90vh] flex items-center py-[var(--space-5xl)] lg:py-[var(--space-6xl, 12rem)]">
@@ -46,21 +48,18 @@ export function HomeHero() {
         />
       </div>
 
-      {/* Light Glow Effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none z-[1]" />
+      {/* Light Glow Effect — radial-gradient, no blur filter */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none z-[1]"
+        style={{ background: "radial-gradient(ellipse at center, rgba(0,191,166,0.08) 0%, transparent 70%)" }} />
 
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        style={{ y: heroY }}
+      <motion.div
+        {...animationProps}
         className="container-content mx-auto px-6 relative z-10 text-center flex flex-col items-center"
       >
         {/* Trust Kicker */}
-        <motion.div 
-          variants={itemVariants} 
-          style={{ y: kickerY }}
-          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-border bg-surface/80 backdrop-blur-md shadow-sm mb-10 transition-colors hover:border-primary/30"
+        <motion.div
+          variants={itemVariants}
+          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-border bg-surface/90 shadow-sm mb-10 transition-colors hover:border-primary/30"
         >
           <span className="w-2 size-2 rounded-full bg-success shadow-[0_0_10px_rgba(16,185,129,0.3)]" />
           <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-muted-strong font-bold">Web Agency Lemmer</span>
@@ -90,7 +89,7 @@ export function HomeHero() {
         {siteConfig.availabilityMessage && (
           <motion.div variants={itemVariants} className="flex items-center gap-2 text-sm text-emerald-400 mb-6">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className={allowHeavyMotion ? "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" : "absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-40"} />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             {siteConfig.availabilityMessage}
@@ -98,7 +97,7 @@ export function HomeHero() {
         )}
 
         {/* Trust Microcopy */}
-        <motion.p variants={itemVariants} className="text-[13px] text-muted-strong font-semibold flex items-center gap-3 bg-surface-strong/30 px-6 py-2 rounded-full backdrop-blur-sm border border-border/40">
+        <motion.p variants={itemVariants} className="text-[13px] text-muted-strong font-semibold flex items-center gap-3 bg-surface-strong/50 px-6 py-2 rounded-full border border-border/40">
           <span className="flex size-5 items-center justify-center rounded-full bg-success/10 text-success">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { Check, Zap, Sparkles, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
@@ -21,36 +21,11 @@ function PremiumPricingCard({
   isPopular?: boolean;
   index: number;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(Infinity);
-  const mouseY = useMotionValue(Infinity);
-
-  // Magnetic Spring effect values
-  const springConfig = { damping: 20, stiffness: 150 };
-  const rotateX = useSpring(useTransform(mouseY, [-200, 200], [5, -5]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-200, 200], [-5, 5]), springConfig);
-
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
-  }
-
-  function handleMouseLeave() {
-    mouseX.set(0);
-    mouseY.set(0);
-  }
-
   const icons = [Zap, Sparkles, Rocket];
   const Icon = icons[index % icons.length];
 
   return (
     <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       variants={{
         hidden: { opacity: 0, y: 40, scale: 0.95 },
         visible: { 
@@ -67,17 +42,6 @@ function PremiumPricingCard({
           : "bg-white/[0.02] border-white/10 hover:border-white/20 shadow-2xl"
       )}
     >
-      {/* Background Glow Follower */}
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background: useTransform(
-            [mouseX, mouseY],
-            ([x, y]) => `radial-gradient(800px circle at ${Number(x) + (cardRef.current?.offsetWidth || 0) / 2}px ${Number(y) + (cardRef.current?.offsetHeight || 0) / 2}px, rgba(255,255,255,0.06), transparent 40%)`
-          ),
-        }}
-      />
-
       {/* Internal Noise */}
       <div className="absolute inset-0 opacity-[0.03] noise-bg pointer-events-none mix-blend-overlay" />
 
@@ -144,37 +108,13 @@ function PremiumPricingCard({
 // --- Main Section Component ---
 
 export function PricingSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const textX1 = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
-  const textX2 = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
-
-  // Staggered vertical drift for pricing cards
-  const y0 = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 40]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-
   return (
-    <section 
-      ref={containerRef}
-      className="relative py-24 lg:py-40 bg-[#050505] overflow-hidden"
-    >
+    <section className="relative py-24 lg:py-40 bg-[#050505] overflow-hidden">
       {/* Cinematic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating Atmospheric Orbs */}
-        <motion.div 
-          style={{ y: backgroundY }}
-          className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-accent/10 blur-[120px] lg:blur-[180px] opacity-40 mix-blend-screen" 
-        />
-        <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 1], ["20%", "-10%"]) }}
-          className="absolute top-[40%] -right-[15%] w-[50vw] h-[50vw] rounded-full bg-[#B388FF]/10 blur-[120px] lg:blur-[180px] opacity-30 mix-blend-screen" 
-        />
+        <div className="absolute -top-[10%] -left-[10%] w-[70vw] h-[70vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.1) 0%, transparent 60%)" }} />
+        <div className="absolute top-[40%] -right-[15%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(179,136,255,0.1) 0%, transparent 60%)" }} />
         
         {/* Subtle Grid overlay */}
         <div className="absolute inset-0 opacity-[0.03]" 
@@ -189,15 +129,6 @@ export function PricingSection() {
         <div className="absolute inset-0 noise-bg opacity-[0.2] mix-blend-overlay" />
       </div>
 
-      {/* Large Parallax Background Text */}
-      <div className="absolute inset-0 flex flex-col justify-center pointer-events-none select-none overflow-hidden opacity-[0.02]">
-        <motion.span style={{ x: textX1 }} className="text-[20vw] font-black text-white whitespace-nowrap leading-none">
-          TARIEVEN • TARIEVEN • TARIEVEN
-        </motion.span>
-        <motion.span style={{ x: textX2 }} className="text-[20vw] font-black text-white whitespace-nowrap leading-none mt-4">
-          INVESTERING • INVESTERING
-        </motion.span>
-      </div>
 
       <div className="container-content relative z-10 mx-auto px-6 max-w-7xl">
         <header className="mb-16 lg:mb-24 text-center lg:text-left">
@@ -207,7 +138,7 @@ export function PricingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-[10px] uppercase tracking-widest mb-6 backdrop-blur-md">
+            <span className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 font-mono text-[10px] uppercase tracking-widest mb-6">
               Helder & Transparant
             </span>
             <h2 className="text-5xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.9] lg:-ml-1">
@@ -220,59 +151,56 @@ export function PricingSection() {
               <div className="shrink-0 space-y-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30 border-l border-white/10 pl-6 hidden lg:block">
                 <p>Geen verborgen kosten</p>
                 <p>Oplevering volgens plan</p>
-                <p>Voor starters & ZZP'ers</p>
+                <p>Voor starters &amp; ZZP&apos;ers</p>
               </div>
             </div>
           </motion.div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <motion.div style={{ y: y0 }}>
-            <PremiumPricingCard
-              index={0}
-              tier="Starter Site"
-              price="€1.490"
-              features={[
-                "Professioneel responsive design",
-                "Snelle Next.js architectuur",
-                "SEO-basis setup",
-                "Contact & offerte formulier",
-                "Lokale Google koppeling"
-              ]}
-            />
-          </motion.div>
-          
-          <motion.div style={{ y: y1 }}>
-            <PremiumPricingCard
-              index={1}
-              isPopular
-              tier="Groei Site"
-              price="€2.950"
-              features={[
-                "Premium Awwwards style animaties",
-                "Uitgebreide SEO-optimalisatie",
-                "Diensten & Projecten landingspagina's",
-                "Basis conversie-copywriting",
-                "Integratie web analytics"
-              ]}
-            />
-          </motion.div>
-
-          <motion.div style={{ y: y2 }}>
-            <PremiumPricingCard
-              index={2}
-              tier="Leadmachine Pro"
-              price="€4.850"
-              features={[
-                "Volledige conversie copywriting",
-                "Lokale SEO bestemmingsclusters",
-                "Complexe funnel integraties",
-                "Maatwerk componenten bibliotheek",
-                "Prioriteit in support & iteraties"
-              ]}
-            />
-          </motion.div>
-        </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          <PremiumPricingCard
+            index={0}
+            tier="Starter Site"
+            price="€1.490"
+            features={[
+              "Professioneel responsive design",
+              "Snelle Next.js architectuur",
+              "SEO-basis setup",
+              "Contact & offerte formulier",
+              "Lokale Google koppeling"
+            ]}
+          />
+          <PremiumPricingCard
+            index={1}
+            isPopular
+            tier="Groei Site"
+            price="€2.950"
+            features={[
+              "Premium Awwwards style animaties",
+              "Uitgebreide SEO-optimalisatie",
+              "Diensten & Projecten landingspagina's",
+              "Basis conversie-copywriting",
+              "Integratie web analytics"
+            ]}
+          />
+          <PremiumPricingCard
+            index={2}
+            tier="Leadmachine Pro"
+            price="€4.850"
+            features={[
+              "Volledige conversie copywriting",
+              "Lokale SEO bestemmingsclusters",
+              "Complexe funnel integraties",
+              "Maatwerk componenten bibliotheek",
+              "Prioriteit in support & iteraties"
+            ]}
+          />
+        </motion.div>
       </div>
     </section>
   );

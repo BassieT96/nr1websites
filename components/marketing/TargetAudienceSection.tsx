@@ -6,11 +6,13 @@ import { ArrowRight, Briefcase, Building2, Rocket } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 export function TargetAudienceSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const { allowHeavyMotion, allowPointerEffects } = usePerformanceProfile();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -71,7 +73,7 @@ export function TargetAudienceSection() {
       {/* Background Parallax Typography */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
          <motion.div 
-           style={{ x: bgTextX }}
+           style={allowHeavyMotion ? { x: bgTextX } : undefined}
            className="absolute -top-10 left-0 text-[18rem] font-display font-bold text-foreground/[0.015] leading-none whitespace-nowrap select-none"
          >
            TARGET AUDIENCE
@@ -90,7 +92,7 @@ export function TargetAudienceSection() {
       >
         <div className="text-center mb-24 max-w-3xl mx-auto relative flex flex-col items-center">
           {/* Ambient Glow behind header */}
-          <div className="absolute left-1/2 top-1/2 -z-10 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]" />
+          <div className="absolute left-1/2 top-1/2 -z-10 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.06) 0%, transparent 65%)" }} />
           
           <div className="overflow-hidden pb-2 mb-4">
             <motion.span variants={{ hidden: { y: "120%" }, visible: { y: "0%", transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="section-kicker italic text-muted-strong block mb-0">
@@ -191,7 +193,7 @@ export function TargetAudienceSection() {
                          <div className={cn("size-14 rounded-2xl border flex items-center justify-center shadow-lg", item.accent)}>
                            <item.icon className="size-6" />
                          </div>
-                         <span className="font-mono text-[0.67rem] uppercase tracking-[0.2em] text-white/60 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                         <span className="font-mono text-[0.67rem] uppercase tracking-[0.2em] text-white/60 bg-black/60 px-4 py-2 rounded-full border border-white/10">
                            Doelgroep 0{i + 1}
                          </span>
                        </div>
@@ -214,7 +216,7 @@ export function TargetAudienceSection() {
                          </ul>
 
                          <div className="mt-10 lg:mt-12 inline-flex">
-                           <Magnetic strength={0.3}>
+                           <Magnetic strength={0.3} disabled={!allowPointerEffects}>
                              <Link
                                href={item.href}
                                className="inline-flex items-center gap-2 font-semibold bg-white text-black px-7 py-3.5 rounded-full hover:scale-105 hover:bg-white/90 transition-all duration-300 text-sm shadow-[0_0_20px_rgba(255,255,255,0.2)]"

@@ -28,7 +28,6 @@ export function CharacterReveal({
         visible: {
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
             transition: {
                 type: "spring",
                 damping: 15,
@@ -38,7 +37,6 @@ export function CharacterReveal({
         hidden: {
             opacity: 0,
             y: 20,
-            filter: "blur(4px)",
             transition: {
                 type: "spring",
                 damping: 15,

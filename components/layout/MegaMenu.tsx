@@ -23,13 +23,11 @@ const containerVariants = {
         opacity: 0,
         y: -8,
         scale: 0.97,
-        filter: "blur(4px)",
     },
     visible: {
         opacity: 1,
         y: 0,
         scale: 1,
-        filter: "blur(0px)",
         transition: {
             duration: 0.2,
             ease: [0.16, 1, 0.3, 1] as const,
@@ -40,7 +38,6 @@ const containerVariants = {
         opacity: 0,
         y: -6,
         scale: 0.97,
-        filter: "blur(4px)",
         transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const },
     },
 };

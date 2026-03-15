@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 interface WordCyclerProps {
@@ -12,13 +13,28 @@ interface WordCyclerProps {
 
 export function WordCycler({ words, interval = 2500, className }: WordCyclerProps) {
   const [index, setIndex] = useState(0);
+  const { allowHeavyMotion } = usePerformanceProfile();
 
   useEffect(() => {
+    if (!allowHeavyMotion) {
+      return;
+    }
+
     const timer = setInterval(() => {
       setIndex((current) => (current + 1) % words.length);
     }, interval);
     return () => clearInterval(timer);
-  }, [words.length, interval]);
+  }, [allowHeavyMotion, words.length, interval]);
+
+  if (!allowHeavyMotion) {
+    return (
+      <span
+        className={cn("bg-gradient-to-r from-[#E9C86D] via-[#F59F56] to-[#3F57F2] bg-clip-text px-[0.2em] text-transparent", className)}
+      >
+        {words[0]}
+      </span>
+    );
+  }
 
   return (
     <span className={cn("relative inline-flex overflow-hidden align-bottom justify-center px-[0.2em] -mx-[0.2em] py-[0.1em] -my-[0.1em]", className)}>

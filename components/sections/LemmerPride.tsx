@@ -24,8 +24,8 @@ export function LemmerPride() {
             {/* Background effects */}
             <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute bottom-0 left-0 right-0 h-[250px] bg-gradient-to-t from-accent/4 to-transparent" />
-                <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] bg-accent/4 rounded-full blur-[140px] animate-[drift_20s_ease-in-out_infinite]" />
-                <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-blue-500/3 rounded-full blur-[120px] animate-[drift_15s_ease-in-out_infinite_-5s]" />
+                <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] bg-accent/4 rounded-full blur-[140px]" />
+                <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-blue-500/3 rounded-full blur-[120px]" />
             </motion.div>
 
             <div className="max-w-[1000px] mx-auto relative z-10 text-center">

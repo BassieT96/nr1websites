@@ -37,7 +37,7 @@ export function PageHero({
           backgroundColor="transparent"
         />
       </div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[340px] bg-primary/5 blur-[110px] rounded-full pointer-events-none z-[1]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] pointer-events-none z-[1]" style={{ background: "radial-gradient(ellipse at center, rgba(54,98,227,0.07) 0%, transparent 65%)" }} />
 
       <Container>
         <motion.div 

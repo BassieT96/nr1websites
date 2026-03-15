@@ -10,11 +10,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { navItems, siteConfig } from "@/content";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { isSafari } = usePerformanceProfile();
 
   function isActive(href: string) {
     if (href === "/") {
@@ -32,7 +34,24 @@ export function SiteHeader() {
 
   // Handle scroll state for glassmorphism
   useEffect(() => {
-    const handler = () => setIsScrolled(window.scrollY > 20);
+    let ticking = false;
+
+    const updateScrolled = () => {
+      ticking = false;
+      const nextScrolled = window.scrollY > 20;
+      setIsScrolled((current) => (current === nextScrolled ? current : nextScrolled));
+    };
+
+    const handler = () => {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(updateScrolled);
+    };
+
+    updateScrolled();
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -45,8 +64,8 @@ export function SiteHeader() {
       <Container>
         <div className={cn(
           "flex items-center justify-between gap-4 px-4 py-3 md:px-6 rounded-full transition-all duration-500",
-          isScrolled 
-            ? "bg-white/70 border border-border/50 shadow-sm backdrop-blur-2xl" 
+          isScrolled
+            ? "bg-white/95 border border-border/50 shadow-sm"
             : "bg-transparent border border-transparent shadow-none"
         )}>
           <Link
@@ -115,7 +134,10 @@ export function SiteHeader() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="mt-3 grid gap-2 rounded-[2rem] border border-border/40 bg-white/95 p-4 shadow-[var(--shadow-pop)] backdrop-blur-2xl md:hidden origin-top"
+              className={cn(
+                "mt-3 origin-top grid gap-2 rounded-[2rem] border border-border/40 bg-white/95 p-4 shadow-[var(--shadow-pop)] md:hidden",
+                isSafari ? "" : "backdrop-blur-2xl",
+              )}
             >
               {navItems.map((item, idx) => (
                 <motion.div
