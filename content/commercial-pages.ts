@@ -5,9 +5,9 @@ export const commercialPages: CommercialPage[] = [
     slug: "websites",
     path: "/websites",
     title: "Websites",
-    eyebrow: "Commerciële hoofdpagina",
+    eyebrow: "Web agency · Lemmer, Friesland",
     description:
-      "Hoofdpagina voor websiteprojecten, gericht op ondernemers die een professionele site willen laten bouwen met focus op vertrouwen, snelheid en conversie.",
+      "Professionele websites voor ondernemers die klanten willen werven — niet alleen indruk maken.",
     intro:
       "Deze pagina functioneert als commerciële servicehub voor design, development, conversie en onderhoud. Vanuit hier stuur je bezoekers door naar specifieke intentie- of doelgroep-pagina’s.",
     searchIntent:

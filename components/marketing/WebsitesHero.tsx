@@ -1,15 +1,26 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useScroll,
+} from "framer-motion";
 import { ButtonLink } from "@/components/ui/Button";
 import type { CommercialPage } from "@/content/types";
 import React, { useRef } from "react";
 import { Waves } from "@/components/ui/wave-background";
 
+const stats = [
+  { value: "40+", label: "Websites gebouwd" },
+  { value: "0.9s", label: "Gem. laadtijd" },
+  { value: "100%", label: "Next.js & Vercel" },
+];
+
 export function WebsitesHero({ page }: { page: CommercialPage }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Mouse tracking for interactive glow
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { damping: 50, stiffness: 400 });
@@ -23,133 +34,130 @@ export function WebsitesHero({ page }: { page: CommercialPage }) {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
   });
 
   const titleOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const titleScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-  const lightStreakX = useTransform(scrollYProgress, [0, 1], ["-100%", "200%"]);
+  const titleY = useTransform(scrollYProgress, [0, 0.5], [0, -40]);
 
   return (
-    <section 
+    <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden bg-[#020202] group"
+      className="relative min-h-screen flex items-center justify-center pt-32 pb-24 overflow-hidden bg-[#020202] group"
     >
-      {/* Animated Wave Background - Maximized Visibility */}
+      {/* Wave background */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <Waves
-          className="h-full w-full opacity-100"
-          strokeColor="rgba(255, 255, 255, 0.6)"
-          strokeWidth={2.8}
+          className="h-full w-full"
+          strokeColor="rgba(255, 255, 255, 0.45)"
+          strokeWidth={2.2}
           lineColors={["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"]}
           backgroundColor="transparent"
         />
-        {/* Contrast Enhancers: Dark gradients to keep text and navbar readable against bright waves */}
-        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#020202]/90 via-[#020202]/50 to-transparent z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,2,2,0.6)_0%,transparent_65%)] z-10 opacity-80 lg:opacity-100" />
+        <div className="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-[#020202] via-[#020202]/60 to-transparent z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,2,2,0.7)_0%,transparent_70%)] z-10" />
       </div>
 
-      {/* Background Decorative Elements - Moved deeper */}
+      {/* Mouse glow */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Scrolling Light Streak */}
-        <motion.div 
-          style={{ x: lightStreakX }}
-          className="absolute top-1/4 left-0 w-[50vw] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent rotate-12 blur-sm"
-        />
-
-        {/* Static Background Glow */}
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] bg-primary/10 blur-[150px] rounded-full opacity-40" 
-        />
-        
-        {/* Interactive Mouse Highlight */}
-        <motion.div 
-          className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
           style={{
             background: useTransform(
               [springX, springY],
-              ([x, y]) => `radial-gradient(800px circle at ${x}px ${y}px, rgba(37,99,235,0.1), transparent 40%)`
-            )
+              ([x, y]) =>
+                `radial-gradient(700px circle at ${x}px ${y}px, rgba(54,98,227,0.07), transparent 40%)`
+            ),
           }}
         />
       </div>
 
-      <div className="container-content relative z-20 px-6">
+      <div className="relative z-20 px-6 w-full max-w-5xl mx-auto">
         <div className="flex flex-col items-center text-center">
+
+          {/* Eyebrow */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-black/40 border border-white/10 text-white/80 text-xs font-mono uppercase tracking-[0.2em] mb-8 backdrop-blur-md shadow-lg">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-white/40 text-[11px] font-mono uppercase tracking-[0.25em] mb-10">
+              <span className="size-1.5 rounded-full bg-[#3662e3]" />
               {page.eyebrow}
             </span>
           </motion.div>
-          
-          <motion.h1 
-            style={{ opacity: titleOpacity, scale: titleScale }}
-            initial={{ opacity: 0, scale: 0.9, filter: "blur(30px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-            className="text-6xl lg:text-[8.5rem] font-display font-medium text-white tracking-[-0.05em] leading-[0.85] mb-12 max-w-6xl drop-shadow-xl"
+
+          {/* Headline */}
+          <motion.h1
+            style={{ opacity: titleOpacity, y: titleY }}
+            initial={{ opacity: 0, y: 24, filter: "blur(16px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="text-[clamp(2.75rem,8vw,7.5rem)] font-display font-semibold text-white tracking-[-0.04em] leading-[0.88] mb-8"
           >
-            Websites die de standaard <span className="text-accent italic">verleggen.</span>
+            Websites die{" "}
+            <em className="not-italic text-[#3662e3]">klanten werven.</em>
+            <br className="hidden sm:block" />
+            {" "}Niet alleen indruk maken.
           </motion.h1>
 
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+          {/* Sub */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl lg:text-3xl text-white/80 max-w-3xl font-light leading-relaxed tracking-tight mb-16 text-pretty drop-shadow-lg"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="text-lg sm:text-xl text-white/45 max-w-xl font-light leading-relaxed mb-12"
           >
             {page.description}
           </motion.p>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-col sm:flex-row gap-6 items-center"
+            transition={{ duration: 0.8, delay: 0.65 }}
+            className="flex flex-col sm:flex-row gap-3 items-center mb-16"
           >
-            <ButtonLink 
+            <ButtonLink
               href={page.primaryCta.href}
-              className="h-16 px-12 text-lg rounded-full bg-primary text-white hover:scale-105 transition-transform border border-white/5 drop-shadow-xl"
+              className="h-13 px-9 text-[15px] rounded-full bg-[#3662e3] text-white hover:bg-[#2a52d4] hover:scale-[1.02] transition-all font-medium"
             >
               {page.primaryCta.label}
             </ButtonLink>
-            <ButtonLink 
+            <ButtonLink
               href={page.secondaryCta.href}
-              className="h-16 px-12 text-lg rounded-full bg-black/40 border border-white/20 text-white backdrop-blur-xl hover:bg-black/60 hover:border-white/30 transition-all shadow-2xl drop-shadow-xl"
+              className="h-13 px-9 text-[15px] rounded-full bg-transparent border border-white/12 text-white/60 hover:border-white/25 hover:text-white/90 transition-all"
             >
               Bekijk cases
             </ButtonLink>
           </motion.div>
-        </div>
-      </div>
 
-      {/* Trust Indicator Floating Stats */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-12 text-white/20 font-mono text-[10px] uppercase tracking-[0.4em]">
-        <motion.div 
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          Fast as Light
-        </motion.div>
-        <span className="size-1 rounded-full bg-white/10" />
-        <motion.div 
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 4, delay: 1, repeat: Infinity, ease: "easeInOut" }}
-        >
-          SEO Dominant
-        </motion.div>
-        <span className="size-1 rounded-full bg-white/10" />
-        <motion.div 
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 4, delay: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          Awwwards Ready
-        </motion.div>
+          {/* Stats strip */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.9 }}
+            className="flex items-center gap-8 sm:gap-14"
+          >
+            {stats.map((stat, i) => (
+              <React.Fragment key={stat.label}>
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-display font-semibold text-white/90 tracking-tight">
+                    {stat.value}
+                  </div>
+                  <div className="text-[10px] text-white/25 font-mono uppercase tracking-[0.18em] mt-0.5">
+                    {stat.label}
+                  </div>
+                </div>
+                {i < stats.length - 1 && (
+                  <div className="h-7 w-px bg-white/[0.08]" />
+                )}
+              </React.Fragment>
+            ))}
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
