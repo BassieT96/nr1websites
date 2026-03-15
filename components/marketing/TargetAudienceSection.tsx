@@ -6,11 +6,13 @@ import { ArrowRight, Briefcase, Building2, Rocket } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 export function TargetAudienceSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const { allowHeavyMotion, allowPointerEffects } = usePerformanceProfile();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -71,7 +73,7 @@ export function TargetAudienceSection() {
       {/* Background Parallax Typography */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
          <motion.div 
-           style={{ x: bgTextX }}
+           style={allowHeavyMotion ? { x: bgTextX } : undefined}
            className="absolute -top-10 left-0 text-[18rem] font-display font-bold text-foreground/[0.015] leading-none whitespace-nowrap select-none"
          >
            TARGET AUDIENCE
@@ -214,7 +216,7 @@ export function TargetAudienceSection() {
                          </ul>
 
                          <div className="mt-10 lg:mt-12 inline-flex">
-                           <Magnetic strength={0.3}>
+                           <Magnetic strength={0.3} disabled={!allowPointerEffects}>
                              <Link
                                href={item.href}
                                className="inline-flex items-center gap-2 font-semibold bg-white text-black px-7 py-3.5 rounded-full hover:scale-105 hover:bg-white/90 transition-all duration-300 text-sm shadow-[0_0_20px_rgba(255,255,255,0.2)]"

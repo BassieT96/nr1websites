@@ -53,7 +53,7 @@ export function AboutSection() {
           </motion.div>
 
           <div className="flex flex-col gap-6">
-            {values.map((value, idx) => (
+            {values.map((value) => (
               <motion.article 
                 key={value.title}
                 variants={{

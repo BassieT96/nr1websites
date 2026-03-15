@@ -229,6 +229,11 @@
     max-width: var(--container-wide);
   }
 
+  .deferred-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 960px;
+  }
+
   .interactive-lift {
     transform: translateY(0);
     transition:

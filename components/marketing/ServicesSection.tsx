@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, ShieldCheck, MapPin, TrendingUp } from "lucide-react";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 import { cn } from "@/lib/utils";
 
 type ServicesSectionProps = {
@@ -19,6 +20,7 @@ export function ServicesSection({
   title,
 }: ServicesSectionProps) {
   const targetRef = useRef<HTMLDivElement>(null);
+  const { allowHeavyMotion } = usePerformanceProfile();
   
   const resolvedEyebrow = eyebrow ?? (includeAll ? "Diensten & Resultaat" : "Bewijsbare Impact");
   const resolvedTitle =
@@ -69,9 +71,47 @@ export function ServicesSection({
 
   // Moves the horizontal track leftwards based on scroll depth (5 slides total now)
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+
+  if (!allowHeavyMotion) {
+    return (
+      <section className="deferred-section bg-[#050505] px-6 py-24 lg:py-32">
+        <div className="container-content mx-auto">
+          <div className="mb-14 max-w-3xl">
+            <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/5 px-5 py-2 font-mono text-xs uppercase tracking-widest text-white/50">
+              {resolvedEyebrow}
+            </span>
+            <h2 className="mb-6 text-4xl font-display font-medium tracking-tight text-white lg:text-6xl">
+              {resolvedTitle}
+            </h2>
+            <p className="text-lg leading-relaxed text-white/55">{resolvedDescription}</p>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {services.map((service, index) => (
+              <article
+                key={service.title}
+                className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+              >
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/40">
+                    <service.icon className={cn("h-7 w-7", service.accent)} strokeWidth={1.8} />
+                  </div>
+                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/35">
+                    Pijler 0{index + 1}
+                  </span>
+                </div>
+                <h3 className="mb-4 text-3xl font-display font-semibold text-white">{service.title}</h3>
+                <p className="text-base leading-relaxed text-white/60">{service.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
   
   return (
-    <section ref={targetRef} className="relative h-[500vh] bg-[#050505]">
+    <section ref={targetRef} className="deferred-section relative h-[500vh] bg-[#050505]">
       <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden bg-[#050505]">
         
         {/* Ambient Dark Tech Background (Static Grain + Grid) */}

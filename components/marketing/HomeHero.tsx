@@ -7,8 +7,10 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Waves } from "@/components/ui/wave-background";
 import { WordCycler } from "@/components/ui/word-cycler";
 import { siteConfig } from "@/content";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
 export function HomeHero() {
+  const { allowHeavyMotion } = usePerformanceProfile();
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -29,6 +31,10 @@ export function HomeHero() {
     },
   };
 
+  const animationProps = allowHeavyMotion
+    ? { variants: containerVariants, initial: "hidden" as const, animate: "show" as const }
+    : {};
+
   return (
     <section className="relative overflow-hidden min-h-[90vh] flex items-center py-[var(--space-5xl)] lg:py-[var(--space-6xl, 12rem)]">
       {/* Animated Wave Background */}
@@ -47,9 +53,7 @@ export function HomeHero() {
         style={{ background: "radial-gradient(ellipse at center, rgba(0,191,166,0.08) 0%, transparent 70%)" }} />
 
       <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
+        {...animationProps}
         className="container-content mx-auto px-6 relative z-10 text-center flex flex-col items-center"
       >
         {/* Trust Kicker */}
@@ -85,7 +89,7 @@ export function HomeHero() {
         {siteConfig.availabilityMessage && (
           <motion.div variants={itemVariants} className="flex items-center gap-2 text-sm text-emerald-400 mb-6">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className={allowHeavyMotion ? "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" : "absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-40"} />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             {siteConfig.availabilityMessage}

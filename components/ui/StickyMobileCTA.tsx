@@ -2,53 +2,69 @@
 
 import React, { useEffect, useState } from "react";
 import { ArrowRight, MessageCircle } from "lucide-react";
-import { useScroll, motion, AnimatePresence } from "framer-motion";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
+import { cn } from "@/lib/utils";
 
 export function StickyMobileCTA() {
-  const { scrollY } = useScroll();
   const [isVisible, setIsVisible] = useState(false);
+  const { isSafari } = usePerformanceProfile();
 
   useEffect(() => {
-    return scrollY.on("change", (latest) => {
-      // Show CTA only after scrolling past the hero (approx 500px)
-      if (latest > 500) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+    let ticking = false;
+
+    const updateVisibility = () => {
+      ticking = false;
+      const nextVisible = window.scrollY > 500;
+      setIsVisible((current) => (current === nextVisible ? current : nextVisible));
+    };
+
+    const onScroll = () => {
+      if (ticking) {
+        return;
       }
-    });
-  }, [scrollY]);
+
+      ticking = true;
+      window.requestAnimationFrame(updateVisibility);
+    };
+
+    updateVisibility();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed bottom-6 left-4 right-4 z-50 md:hidden"
-        >
-          <div className="flex items-center gap-2 p-1.5 rounded-full border border-border bg-surface-strong/80 backdrop-blur-xl shadow-card">
-            <a
-              href="/contact"
-              className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-semibold py-3.5 px-4 rounded-full text-sm transition-transform active:scale-95 shadow-[0_0_15px_rgba(0,170,255,0.4)]"
-            >
-              Start je project
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="https://wa.me/31600000000" // Vervang door correct nummer
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center bg-white/5 border border-white/10 text-success rounded-full transition-transform active:scale-95"
-              aria-label="WhatsApp"
-            >
-              <MessageCircle className="w-5 h-5 fill-current" />
-            </a>
-          </div>
-        </motion.div>
+    <div
+      className={cn(
+        "fixed bottom-6 left-4 right-4 z-50 transition duration-300 md:hidden",
+        isVisible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-8 opacity-0",
       )}
-    </AnimatePresence>
+    >
+      <div
+        className={cn(
+          "flex items-center gap-2 rounded-full border border-border p-1.5 shadow-card",
+          isSafari ? "bg-surface-strong/95" : "bg-surface-strong/80 backdrop-blur-xl",
+        )}
+      >
+        <a
+          href="/contact"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-4 py-3.5 text-sm font-semibold text-white transition-transform active:scale-95 shadow-[0_0_15px_rgba(0,170,255,0.4)]"
+        >
+          Start je project
+          <ArrowRight className="h-4 w-4" />
+        </a>
+        <a
+          href="https://wa.me/31600000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-success transition-transform active:scale-95"
+          aria-label="WhatsApp"
+        >
+          <MessageCircle className="h-5 w-5 fill-current" />
+        </a>
+      </div>
+    </div>
   );
 }

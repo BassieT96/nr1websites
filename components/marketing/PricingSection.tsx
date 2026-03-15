@@ -151,7 +151,7 @@ export function PricingSection() {
               <div className="shrink-0 space-y-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/30 border-l border-white/10 pl-6 hidden lg:block">
                 <p>Geen verborgen kosten</p>
                 <p>Oplevering volgens plan</p>
-                <p>Voor starters & ZZP'ers</p>
+                <p>Voor starters &amp; ZZP&apos;ers</p>
               </div>
             </div>
           </motion.div>
