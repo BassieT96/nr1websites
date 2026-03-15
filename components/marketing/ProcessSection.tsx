@@ -46,8 +46,6 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
     restDelta: 0.001
   });
 
-  const bgTextX = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-  
   // Full lifecycle transforms for sticky content (Entrance -> Stay -> Exit)
   const headerOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const headerY = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [60, 0, 0, -60]);
@@ -131,16 +129,6 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
         
         {/* Grain Texture */}
         <div className="absolute inset-0 noise-bg opacity-[0.08] mix-blend-multiply" />
-      </div>
-
-      {/* Parallax Background Text */}
-      <div className="absolute top-[30%] left-0 pointer-events-none select-none opacity-[0.03] w-full overflow-hidden">
-        <motion.span 
-          style={{ x: bgTextX }} 
-          className="text-[25vw] font-black text-black whitespace-nowrap leading-none inline-block transform-gpu"
-        >
-          PROCESS • METHOD • SUCCESS
-        </motion.span>
       </div>
 
       <motion.div 

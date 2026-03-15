@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { AccordionItem } from "@/components/ui/AccordionItem";
 import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
@@ -49,14 +49,6 @@ export function FaqSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const glassRef = useRef<HTMLDivElement>(null);
 
-  // Parallax scroll — only computed when allowHeavyMotion
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-  const bgTextY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-  const bgTextOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.06, 0.06, 0]);
-
   // Mouse glow
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -83,23 +75,6 @@ export function FaqSection() {
   if (allowHeavyMotion) {
     return (
       <section ref={containerRef} className="relative py-32 lg:py-64 bg-[#020202] overflow-hidden">
-        {/* Parallax Background "QUESTIONS" text */}
-        <motion.div
-          style={{ y: bgTextY, opacity: bgTextOpacity }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
-          aria-hidden
-        >
-          <span
-            className="text-[20vw] font-display font-bold uppercase whitespace-nowrap"
-            style={{
-              WebkitTextStroke: "1px rgba(255,255,255,0.8)",
-              color: "transparent",
-            }}
-          >
-            QUESTIONS
-          </span>
-        </motion.div>
-
         {/* Grid + orb background */}
         <div className="absolute inset-0 pointer-events-none">
           <div

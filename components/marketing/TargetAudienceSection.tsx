@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, Briefcase, Building2, Rocket } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -272,31 +272,14 @@ function SafariAudience() {
 
 // ─── Chrome/full-motion version ───────────────────────────────────────────────
 export function TargetAudienceSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState<number>(0);
-  const { allowHeavyMotion, allowPointerEffects, isSafari } = usePerformanceProfile();
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const bgTextX = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const { allowPointerEffects, isSafari } = usePerformanceProfile();
 
   // Safari gets the lightweight split-panel design
   if (isSafari) return <SafariAudience />;
 
   return (
-    <section ref={sectionRef} className="page-section deferred-section bg-background overflow-hidden relative">
-      {/* Background parallax typography */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <motion.div
-          style={allowHeavyMotion ? { x: bgTextX } : undefined}
-          className="absolute -top-10 left-0 text-[18rem] font-display font-bold text-foreground/[0.015] leading-none whitespace-nowrap select-none"
-        >
-          TARGET AUDIENCE
-        </motion.div>
-      </div>
-
+    <section className="page-section deferred-section bg-background overflow-hidden relative">
       <motion.div
         initial="hidden"
         whileInView="visible"

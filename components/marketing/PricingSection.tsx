@@ -158,9 +158,7 @@ export function PricingSection() {
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const textX1 = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
-  const textX2 = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
-  const y0 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+const y0 = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const y1 = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const orb2Y = useTransform(scrollYProgress, [0, 1], ["20%", "-10%"]);
@@ -205,17 +203,6 @@ export function PricingSection() {
         <div className="absolute inset-0 noise-bg opacity-[0.2] mix-blend-overlay" />
       </div>
 
-      {/* Parallax background text (heavy motion only) */}
-      {allowHeavyMotion && (
-        <div className="absolute inset-0 flex flex-col justify-center pointer-events-none select-none overflow-hidden opacity-[0.02]">
-          <motion.span style={{ x: textX1 }} className="text-[20vw] font-black text-white whitespace-nowrap leading-none">
-            TARIEVEN • TARIEVEN • TARIEVEN
-          </motion.span>
-          <motion.span style={{ x: textX2 }} className="text-[20vw] font-black text-white whitespace-nowrap leading-none mt-4">
-            INVESTERING • INVESTERING
-          </motion.span>
-        </div>
-      )}
 
       <div className="container-content relative z-10 mx-auto px-6 max-w-7xl">
         <header className="mb-16 lg:mb-24 text-center lg:text-left">
