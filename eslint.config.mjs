@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Legacy experiment files kept outside the new starter structure:
+    "components/layout/**",
+    "components/sections/**",
+    "components/three/**",
+    "components/ui/**",
   ]),
 ]);
 
