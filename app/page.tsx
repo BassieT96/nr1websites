@@ -2,24 +2,35 @@ import dynamic from "next/dynamic";
 
 import { HomeHero } from "@/components/marketing/HomeHero";
 import { TrustStrip } from "@/components/marketing/TrustStrip";
-import { TargetAudienceSection } from "@/components/marketing/TargetAudienceSection";
-import { ServicesSection } from "@/components/marketing/ServicesSection";
-import { PricingSection } from "@/components/marketing/PricingSection";
-import { ProcessSection } from "@/components/marketing/ProcessSection";
 
+// Below-fold: code-split into separate chunks to reduce initial JS payload
+const TargetAudienceSection = dynamic(
+  () => import("@/components/marketing/TargetAudienceSection").then((m) => m.TargetAudienceSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const ServicesSection = dynamic(
+  () => import("@/components/marketing/ServicesSection").then((m) => m.ServicesSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const PricingSection = dynamic(
+  () => import("@/components/marketing/PricingSection").then((m) => m.PricingSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const ProcessSection = dynamic(
+  () => import("@/components/marketing/ProcessSection").then((m) => m.ProcessSection),
+  { loading: () => <div className="deferred-section" /> }
+);
 const PortfolioSection = dynamic(
   () => import("@/components/marketing/PortfolioSection").then((m) => m.PortfolioSection),
-  { loading: () => <div className="h-96 animate-pulse bg-white/5 rounded-xl" /> }
+  { loading: () => <div className="deferred-section" /> }
 );
-
 const FaqSection = dynamic(
   () => import("@/components/marketing/FaqSection").then((m) => m.FaqSection),
-  { loading: () => <div className="h-96 animate-pulse bg-white/5 rounded-xl" /> }
+  { loading: () => <div className="deferred-section" /> }
 );
-
 const ContactSection = dynamic(
   () => import("@/components/marketing/ContactSection").then((m) => m.ContactSection),
-  { loading: () => <div className="h-96 animate-pulse bg-white/5 rounded-xl" /> }
+  { loading: () => <div className="deferred-section" /> }
 );
 import { StructuredData } from "@/components/seo/StructuredData";
 import { getPageSpecByPath } from "@/content";
