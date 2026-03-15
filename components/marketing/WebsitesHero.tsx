@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useScroll,
-} from "framer-motion";
+import { motion, useTransform, useScroll } from "framer-motion";
 import { ButtonLink } from "@/components/ui/Button";
 import type { CommercialPage } from "@/content/types";
 import React, { useRef } from "react";
@@ -21,17 +15,6 @@ const stats = [
 export function WebsitesHero({ page }: { page: CommercialPage }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { damping: 50, stiffness: 400 });
-  const springY = useSpring(mouseY, { damping: 50, stiffness: 400 });
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -43,8 +26,7 @@ export function WebsitesHero({ page }: { page: CommercialPage }) {
   return (
     <section
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center justify-center pt-32 pb-24 overflow-hidden bg-[#020202] group"
+      className="relative min-h-screen flex items-center justify-center pt-32 pb-24 overflow-hidden bg-[#020202]"
     >
       {/* Wave background */}
       <div className="absolute inset-0 pointer-events-none z-10">
@@ -59,21 +41,8 @@ export function WebsitesHero({ page }: { page: CommercialPage }) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,2,2,0.7)_0%,transparent_70%)] z-10" />
       </div>
 
-      {/* Mouse glow */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
-          style={{
-            background: useTransform(
-              [springX, springY],
-              ([x, y]) =>
-                `radial-gradient(700px circle at ${x}px ${y}px, rgba(54,98,227,0.07), transparent 40%)`
-            ),
-          }}
-        />
-      </div>
 
-      <div className="relative z-20 px-6 w-full max-w-5xl mx-auto">
+<div className="relative z-20 px-6 w-full max-w-5xl mx-auto">
         <div className="flex flex-col items-center text-center">
 
           {/* Eyebrow */}

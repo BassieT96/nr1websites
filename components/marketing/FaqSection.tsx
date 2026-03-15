@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { AccordionItem } from "@/components/ui/AccordionItem";
 
 const faqData = [
@@ -30,118 +30,56 @@ const faqData = [
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Parallax Scroll for Background Text
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const bgTextY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-  const bgTextOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0]);
-
-  // Mouse Glow Logic
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { damping: 50, stiffness: 400 });
-  const springY = useSpring(mouseY, { damping: 50, stiffness: 400 });
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
 
   return (
-    <section ref={containerRef} className="relative py-32 lg:py-64 bg-[#020202] overflow-hidden">
-      {/* Immersive Background Elements */}
+    <section ref={containerRef} className="relative py-32 lg:py-48 bg-[#020202] overflow-hidden">
+      {/* Static background elements — no scroll-driven transforms for performance */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Large Parallax Background Text */}
-        <motion.div 
-          style={{ y: bgTextY, opacity: bgTextOpacity }}
-          className="absolute inset-0 flex items-center justify-center select-none"
-        >
-          <span className="text-[35vw] font-black text-white transform-gpu leading-none tracking-tighter" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}>
-            QUESTIONS
-          </span>
-        </motion.div>
-
-        {/* Cinematic Grid with Mask Fade */}
-        <div className="absolute inset-0 opacity-[0.1]" 
-          style={{ 
-            backgroundImage: "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)", 
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage: "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
             backgroundSize: "80px 80px",
-            maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)" 
-          }} 
+            maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
+          }}
         />
-
-        {/* Static ambient glow — no infinite animation for performance */}
-        <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full opacity-20 pointer-events-none" />
-        
-        {/* Noise overlay */}
-        <div className="absolute inset-0 bg-transparent opacity-[0.05] noise-bg mix-blend-overlay" />
+        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-primary/8 blur-[120px] rounded-full opacity-20" />
       </div>
 
-      <motion.div 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={{
-          hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
-        }}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 container-content mx-auto px-6"
       >
-        <motion.div 
-          variants={{ hidden: { opacity: 0, scale: 0.9, filter: "blur(20px)" }, visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 1, ease: [0.215, 0.61, 0.355, 1.0] } } }}
-          className="text-center mb-24"
-        >
-           <span className="section-kicker mb-8 inline-block px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 backdrop-blur-md">
-             FAQ — Helderheid vooraf
-           </span>
-           <h2 className="text-5xl lg:text-[8rem] font-display font-medium text-white mb-10 tracking-[ -0.04em] leading-[0.9]">
-             De antwoorden<span className="text-primary">.</span>
-           </h2>
-           <p className="text-xl lg:text-3xl text-white/30 max-w-2xl mx-auto font-extralight leading-relaxed tracking-tight">
-             Alles wat je moet weten over proces, prijs en resultaat, verpakt in één transparant overzicht.
-           </p>
-        </motion.div>
+        <div className="text-center mb-16">
+          <span className="section-kicker mb-6 inline-block px-5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/40 text-xs font-mono uppercase tracking-[0.2em]">
+            FAQ — Helderheid vooraf
+          </span>
+          <h2 className="text-4xl lg:text-7xl font-display font-semibold text-white mb-6 tracking-tight leading-[0.92]">
+            De antwoorden<span className="text-[#3662e3]">.</span>
+          </h2>
+          <p className="text-lg text-white/30 max-w-xl mx-auto font-light leading-relaxed">
+            Alles wat je moet weten over proces, prijs en resultaat.
+          </p>
+        </div>
 
-        {/* High-End Glass Container with Interactive Glow */}
-        <motion.div 
-          onMouseMove={handleMouseMove}
-          variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } } }}
-          className="group relative max-w-4xl mx-auto rounded-[4rem] bg-white/[0.05] border border-white/10 overflow-hidden shadow-[0_48px_160px_rgba(0,0,0,0.6)]"
-        >
-          {/* Interactive Mouse Highlight */}
-          <motion.div 
-            className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            style={{
-              background: useTransform(
-                [springX, springY],
-                ([x, y]) => `radial-gradient(1000px circle at ${x}px ${y}px, rgba(255,255,255,0.08), transparent 40%)`
-              )
-            }}
-          />
-
-          <div className="relative z-10 p-8 md:p-20 space-y-4">
-             {faqData.map((faq, index) => (
-               <motion.div 
-                 key={index} 
-                 variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } }}
-               >
-                 <AccordionItem 
-                   index={index}
-                   vraag={faq.vraag}
-                   antwoord={faq.antwoord}
-                   isOpen={openIndex === index}
-                   onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-                   dark={true}
-                 />
-               </motion.div>
-             ))}
+        <div className="max-w-3xl mx-auto rounded-3xl bg-white/[0.04] border border-white/[0.08] overflow-hidden">
+          <div className="p-6 md:p-12 space-y-2">
+            {faqData.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                index={index}
+                vraag={faq.vraag}
+                antwoord={faq.antwoord}
+                isOpen={openIndex === index}
+                onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+                dark={true}
+              />
+            ))}
           </div>
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
