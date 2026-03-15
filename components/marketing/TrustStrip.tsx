@@ -46,25 +46,18 @@ export function TrustStrip() {
         </div>
 
         {/* Secondary Trust Track */}
-        <motion.div 
+        <motion.div
           variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
           className="hidden lg:flex items-center gap-10"
         >
           {["Lokale Helden", "Friesland Groeit", "ZZP Succes"].map((label, idx) => (
-            <motion.div 
+            <div
               key={label}
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: [0.3, 0.7, 0.3] }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity, 
-                delay: idx * 1.2,
-                ease: "easeInOut"
-              }}
               className="text-[12px] font-mono tracking-[0.3em] uppercase text-foreground font-bold"
+              style={{ animation: `trust-pulse 4s ease-in-out ${idx * 1.2}s infinite` }}
             >
               {label}
-            </motion.div>
+            </div>
           ))}
         </motion.div>
       </div>

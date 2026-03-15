@@ -116,18 +116,19 @@ export function TargetAudienceSection() {
               const isActive = activeIdx === i;
 
               return (
-                <motion.div 
+                <div
                   key={item.title}
-                  layout
-                  onHoverStart={() => setActiveIdx(i)}
+                  onMouseEnter={() => setActiveIdx(i)}
                   onFocus={() => setActiveIdx(i)}
                   onClick={() => setActiveIdx(i)}
-                  transition={{ type: "spring", stiffness: 250, damping: 30, mass: 1 }}
                   className={cn(
-                    "relative overflow-hidden cursor-pointer rounded-[2rem] border border-white/[0.08] transition-colors duration-500 flex flex-col group",
+                    "relative overflow-hidden cursor-pointer rounded-[2rem] border border-white/[0.08] flex flex-col group",
                     isActive ? "lg:flex-[3.5] bg-[#121212] shadow-[0_20px_40px_rgba(0,0,0,0.4)] border-white/[0.2]" : "lg:flex-1 bg-[#1a1a1a] hover:bg-[#222]"
                   )}
-                  style={{ minHeight: isActive ? "450px" : "120px" }}
+                  style={{
+                    minHeight: isActive ? "450px" : "120px",
+                    transition: "flex 500ms cubic-bezier(0.3,0,0.1,1), min-height 500ms cubic-bezier(0.3,0,0.1,1), background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease",
+                  }}
                 >
                   {/* Background Image Layer */}
                   <div className="absolute inset-0 z-0 overflow-hidden rounded-[2rem]">
@@ -232,7 +233,7 @@ export function TargetAudienceSection() {
                     </div>
 
                   </div>
-                </motion.div>
+                </div>
               );
             })}
         </div>

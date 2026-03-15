@@ -315,11 +315,25 @@
   }
 }
 
-/* GPU compositing — promotes framer-motion animated elements to their own layer */
-[data-framer-motion-id] {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  will-change: transform;
+/* CSS keyframe animations — compositor-only, zero JS cost */
+@keyframes orb-1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(40px, -50px) scale(1.1); }
+  66%       { transform: translate(-20px, 30px) scale(0.9); }
+}
+@keyframes orb-2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(-30px, 60px) scale(0.9); }
+  66%       { transform: translate(20px, -40px) scale(1.1); }
+}
+@keyframes orb-3 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(50px, -20px) scale(1.05); }
+  66%       { transform: translate(-30px, 50px) scale(0.95); }
+}
+@keyframes trust-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.7; }
 }
 
 @media (prefers-reduced-motion: reduce) {
