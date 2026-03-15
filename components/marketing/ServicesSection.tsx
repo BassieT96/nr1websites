@@ -148,14 +148,6 @@ export function ServicesSection({
                 key={service.title} 
                 className="w-screen h-full flex items-center justify-center relative p-6 lg:p-24"
               >
-                {/* Large Background Numerals (Typography) */}
-                <div 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] text-[40vw] lg:text-[25vw] font-black text-transparent opacity-[0.03] pointer-events-none select-none z-0 font-display transform-gpu" 
-                  style={{ WebkitTextStroke: "1px rgba(255,255,255,1)" }}
-                >
-                  0{index + 1}
-                </div>
-
                 {/* Glowing Abstract Orb — radial-gradient, no blur filter */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] pointer-events-none z-0"
                   style={{ background: `radial-gradient(circle at center, ${service.hex}26 0%, transparent 60%)` }} />
