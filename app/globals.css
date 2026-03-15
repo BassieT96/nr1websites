@@ -315,6 +315,13 @@
   }
 }
 
+/* GPU compositing — promotes framer-motion animated elements to their own layer */
+[data-framer-motion-id] {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

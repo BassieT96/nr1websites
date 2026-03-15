@@ -23,8 +23,10 @@ function buildProfile(): PerformanceProfile {
   return {
     isSafari,
     prefersReducedMotion,
-    allowHeavyMotion: !isSafari && !prefersReducedMotion,
-    allowPointerEffects: !isSafari && !prefersReducedMotion,
+    // Only disable heavy motion for accessibility (prefers-reduced-motion).
+    // Safari supports GPU-composited transforms fine — no longer excluded.
+    allowHeavyMotion: !prefersReducedMotion,
+    allowPointerEffects: !prefersReducedMotion,
   };
 }
 
