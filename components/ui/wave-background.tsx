@@ -124,15 +124,32 @@ export function Waves({
         window.addEventListener('resize', onResize)
         window.addEventListener('mousemove', onMouseMove)
         containerRef.current.addEventListener('touchmove', onTouchMove, { passive: false })
-        // Pause animation when tab is hidden to save resources
+
+        // Pause when tab hidden
         const onVisibilityChange = () => {
             if (document.hidden) {
                 if (rafRef.current) cancelAnimationFrame(rafRef.current)
-            } else {
+            } else if (isVisible) {
                 rafRef.current = requestAnimationFrame(tick)
             }
         }
         document.addEventListener('visibilitychange', onVisibilityChange)
+
+        // Pause when scrolled out of viewport — biggest perf win
+        let isVisible = true
+        const intersectionObserver = new IntersectionObserver(
+            ([entry]) => {
+                isVisible = entry.isIntersecting
+                if (isVisible && !document.hidden) {
+                    rafRef.current = requestAnimationFrame(tick)
+                } else {
+                    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+                }
+            },
+            { threshold: 0.01 }
+        )
+        intersectionObserver.observe(containerRef.current)
+
         // Start animation
         rafRef.current = requestAnimationFrame(tick)
         return () => {
@@ -140,6 +157,7 @@ export function Waves({
             window.removeEventListener('resize', onResize)
             window.removeEventListener('mousemove', onMouseMove)
             document.removeEventListener('visibilitychange', onVisibilityChange)
+            intersectionObserver.disconnect()
             containerRef.current?.removeEventListener('touchmove', onTouchMove)
         }
     }, [])

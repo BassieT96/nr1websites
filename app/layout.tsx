@@ -7,16 +7,7 @@ import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
-import dynamic from "next/dynamic";
-
-const CinematicBackground = dynamic(
-  () => import("@/components/ui/cinematic-background").then((m) => m.CinematicBackground),
-  { ssr: false }
-);
-const StickyMobileCTA = dynamic(
-  () => import("@/components/ui/StickyMobileCTA").then((m) => m.StickyMobileCTA),
-  { ssr: false }
-);
+import { ClientDecorations } from "@/components/layout/ClientDecorations";
 import { siteConfig } from "@/content";
 import {
   getLocalBusinessJsonLd,
@@ -93,14 +84,13 @@ export default function RootLayout({
           Ga direct naar de inhoud
         </a>
         <div className="relative isolate min-h-screen">
-          <CinematicBackground />
           <SiteHeader />
           <main id="content" className="relative z-10 pb-20 md:pb-0">
             {children}
           </main>
           <SiteFooter />
         </div>
-        <StickyMobileCTA />
+        <ClientDecorations />
         <StructuredData data={getLocalBusinessJsonLd()} />
         <StructuredData data={getOrganizationJsonLd()} />
         <StructuredData data={getWebSiteJsonLd()} />

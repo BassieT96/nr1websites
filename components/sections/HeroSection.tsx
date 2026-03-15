@@ -32,23 +32,38 @@ function useAnimatedCounter(end: number, duration = 2000) {
 /* ─── Background Video ─── */
 const BackgroundVideo = React.memo(() => {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const video = videoRef.current;
-        if (!video) return;
-        video.play().catch(() => {});
+        const container = containerRef.current;
+        if (!video || !container) return;
+
+        // Only load + play when hero is visible; pause when scrolled away
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (video.readyState === 0) video.load();
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            },
+            { threshold: 0.1 }
+        );
+        observer.observe(container);
+        return () => observer.disconnect();
     }, []);
 
     return (
-        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+        <div ref={containerRef} className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
             <video
                 ref={videoRef}
                 src="/Moving_with_electric_currents_2510f99650.mp4"
-                autoPlay
                 loop
                 muted
                 playsInline
-                preload="metadata"
+                preload="none"
                 className="absolute inset-0 w-full h-full object-cover scale-[1.1] pointer-events-none mix-blend-screen opacity-50"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-canvas/70 via-canvas/30 to-canvas z-0 pointer-events-none" />
