@@ -57,7 +57,7 @@ export default function OgImage() {
             letterSpacing: "-0.02em",
           }}
         >
-          <span style={{ color: "#3B82F6" }}>Nr1</span>
+          <span style={{ color: "#3662e3" }}>Nr1</span>
           <span style={{ color: "#ffffff" }}>websites</span>
         </div>
 

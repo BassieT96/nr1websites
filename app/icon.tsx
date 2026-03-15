@@ -22,7 +22,7 @@ export default function Icon() {
           letterSpacing: "-0.03em",
         }}
       >
-        <span style={{ color: "#3B82F6" }}>N</span>
+        <span style={{ color: "#3662e3" }}>N</span>
         <span style={{ color: "#ffffff" }}>r1</span>
       </div>
     ),

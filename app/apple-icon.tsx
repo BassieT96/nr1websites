@@ -30,7 +30,7 @@ export default function AppleIcon() {
             lineHeight: 1,
           }}
         >
-          <span style={{ color: "#3B82F6" }}>Nr1</span>
+          <span style={{ color: "#3662e3" }}>Nr1</span>
         </div>
         <div
           style={{
