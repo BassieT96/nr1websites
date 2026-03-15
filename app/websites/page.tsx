@@ -2,14 +2,19 @@ import { getCommercialPageBySlug } from "@/content";
 import { createMetadata } from "@/lib/metadata";
 import { WebsitesHero } from "@/components/marketing/WebsitesHero";
 import { WebsitesServiceGrid } from "@/components/marketing/WebsitesServiceGrid";
+import {
+  WebsitesBento,
+  WebsitesProcess,
+  WebsitesCasesStrip,
+  WebsitesDarkCTA,
+} from "@/components/marketing/WebsitesSections";
 import { FaqSection } from "@/components/marketing/FaqSection";
-import { ContactCTABlock } from "@/components/ui/ProcessAndCTA";
 
 const page = getCommercialPageBySlug("websites");
 
 export const metadata = createMetadata({
   title: page?.title ?? "Websites",
-  description: page?.description ?? "Websiteprojecten en commerciële websites.",
+  description: page?.description ?? "Professionele websites die klanten werven.",
   path: "/websites",
 });
 
@@ -22,10 +27,11 @@ export default function WebsitesPage() {
     <main className="bg-[#020202]">
       <WebsitesHero page={page} />
       <WebsitesServiceGrid />
+      <WebsitesBento />
+      <WebsitesProcess />
+      <WebsitesCasesStrip />
       <FaqSection />
-      <div className="py-24">
-        <ContactCTABlock />
-      </div>
+      <WebsitesDarkCTA />
     </main>
   );
 }
