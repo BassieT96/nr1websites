@@ -111,7 +111,7 @@ export function FaqSection() {
         <motion.div 
           onMouseMove={handleMouseMove}
           variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } } }}
-          className="group relative max-w-4xl mx-auto rounded-[4rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl overflow-hidden shadow-[0_48px_160px_rgba(0,0,0,0.6)]"
+          className="group relative max-w-4xl mx-auto rounded-[4rem] bg-white/[0.05] border border-white/10 overflow-hidden shadow-[0_48px_160px_rgba(0,0,0,0.6)]"
         >
           {/* Interactive Mouse Highlight */}
           <motion.div 

@@ -93,6 +93,20 @@ export function Waves({
         // Initialize size and lines
         setSize()
         setLines()
+
+        // Safari detection — WebKit JS engine is much slower at SVG path updates
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
+        if (isSafari) {
+            // Draw once for static visual, no animation loop
+            movePoints(0)
+            drawLines()
+            window.addEventListener('resize', onResize)
+            return () => {
+                window.removeEventListener('resize', onResize)
+            }
+        }
+
         // Bind events
         window.addEventListener('resize', onResize)
         window.addEventListener('mousemove', onMouseMove)
