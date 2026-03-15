@@ -1,3 +1,5 @@
+import { Resend } from "resend";
+
 export type ContactSubmission = {
   company?: string;
   email: string;
@@ -45,23 +47,23 @@ export function validateContactSubmission(input: unknown) {
 }
 
 export async function deliverContactSubmission(data: ContactSubmission) {
-  const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
+  const apiKey = process.env.RESEND_API_KEY;
+  const toEmail = process.env.CONTACT_EMAIL_TO;
 
-  if (!webhookUrl) {
-    console.log("Nieuwe contactaanvraag ontvangen:", data);
+  if (!apiKey || !toEmail) {
+    console.log("Nieuwe contactaanvraag ontvangen (geen Resend config):", data);
     return;
   }
 
-  const response = await fetch(webhookUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-    cache: "no-store",
-  });
+  const resend = new Resend(apiKey);
 
-  if (!response.ok) {
-    throw new Error("Webhook kon de aanvraag niet verwerken.");
-  }
+  const companyLine = data.company ? `\nBedrijf: ${data.company}` : "";
+
+  await resend.emails.send({
+    from: "nr1websites <noreply@nr1websites.nl>",
+    to: toEmail,
+    replyTo: data.email,
+    subject: `Nieuwe aanvraag van ${data.name}`,
+    text: `Naam: ${data.name}${companyLine}\nE-mail: ${data.email}\n\nBericht:\n${data.message}`,
+  });
 }
