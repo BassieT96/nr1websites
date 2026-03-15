@@ -36,16 +36,16 @@ const DEFAULT_PROFILE: PerformanceProfile = {
 };
 
 export function usePerformanceProfile(): PerformanceProfile {
-  const [profile, setProfile] = useState<PerformanceProfile>(DEFAULT_PROFILE);
+  // Lazy initializer: runs synchronously on first client render, so Safari is
+  // already detected before framer-motion ever registers initial animation state.
+  // On the server (SSR), window is undefined so we fall back to DEFAULT_PROFILE.
+  const [profile, setProfile] = useState<PerformanceProfile>(() => {
+    if (typeof window === "undefined") return DEFAULT_PROFILE;
+    return buildProfile();
+  });
 
-  // useLayoutEffect fires synchronously before the browser paints, so Safari is
-  // detected before framer-motion starts any animations — preventing the
-  // opacity:0 lock that happens when useEffect fires too late.
   useIsomorphicLayoutEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    setProfile(buildProfile());
-
     const onChange = () => setProfile(buildProfile());
     mediaQuery.addEventListener("change", onChange);
     return () => mediaQuery.removeEventListener("change", onChange);
