@@ -62,6 +62,11 @@ export function FaqSection() {
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { damping: 25, stiffness: 150 });
   const springY = useSpring(mouseY, { damping: 25, stiffness: 150 });
+  const mouseGlowBg = useTransform(
+    [springX, springY] as const,
+    ([x, y]: number[]) =>
+      `radial-gradient(400px circle at ${x}px ${y}px, rgba(54,98,227,0.08), transparent 60%)`
+  );
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!glassRef.current) return;
@@ -152,10 +157,7 @@ export function FaqSection() {
             {/* Mouse glow highlight */}
             <motion.div
               className="absolute inset-0 pointer-events-none"
-              style={{
-                background: useMotionValue("none"),
-                backgroundImage: `radial-gradient(400px circle at ${springX}px ${springY}px, rgba(54,98,227,0.08), transparent 60%)`,
-              }}
+              style={{ background: mouseGlowBg }}
             />
             <motion.div
               initial="hidden"
