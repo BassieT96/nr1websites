@@ -58,14 +58,24 @@ export const metadata: Metadata = {
     locale: "nl_NL",
     siteName: siteConfig.name,
     url: siteConfig.url,
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} — Websites die professioneel ogen en daadwerkelijk converteren`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} | Webdesign en development voor ambitieuze merken`,
     description: siteConfig.description,
+    images: ["/og-image.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
