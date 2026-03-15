@@ -181,7 +181,7 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
           </motion.div>
           
           <div className="lg:w-2/3">
-             <div className="space-y-0 relative">
+             <div className="space-y-5 relative">
                <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 25 } } }}>
                  <article className="rounded-[2.5rem] border border-black/5 bg-white p-8 shadow-[0_24px_48px_rgba(0,0,0,0.04)] lg:p-10">
                    <span className="mb-4 block font-mono text-[10px] uppercase tracking-[0.4em] text-accent/50">Fase 01</span>
