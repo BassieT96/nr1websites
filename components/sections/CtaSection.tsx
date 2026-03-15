@@ -1,30 +1,18 @@
 "use client";
 
-import React, { useRef, useCallback } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { BarChart3, Star } from 'lucide-react';
 
 export function CtaSection() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"]
-    });
-
-    const bgScale = useTransform(scrollYProgress, [0, 0.5], [0.95, 1]);
-    const glowOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0.3, 0.8]);
-
     return (
-        <section ref={sectionRef} className="py-40 px-6 md:px-12 lg:px-20 gradient-navy relative overflow-hidden grain">
+        <section className="py-40 px-6 md:px-12 lg:px-20 gradient-navy relative overflow-hidden grain">
             {/* Volumetric glow orbs */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <motion.div
-                    style={{ opacity: glowOpacity }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-accent/8 rounded-full blur-[160px] animate-[pulse-glow_6s_ease-in-out_infinite]"
-                />
-                <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-accent/5 rounded-full blur-[120px] animate-[pulse-glow_8s_ease-in-out_infinite_1s]" />
-                <div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] bg-blue-500/5 rounded-full blur-[100px] animate-[pulse-glow_7s_ease-in-out_infinite_2s]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-accent/8 rounded-full blur-[160px] opacity-50" />
+                <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-accent/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] bg-blue-500/5 rounded-full blur-[100px]" />
             </div>
 
             {/* Static glass accents */}
@@ -34,10 +22,7 @@ export function CtaSection() {
                 <div className="absolute top-[60%] left-[5%] w-12 h-12 rounded-lg glass-dark border border-accent/10 opacity-15 rotate-45" />
             </div>
 
-            <motion.div
-                style={{ scale: bgScale }}
-                className="max-w-[1200px] mx-auto relative z-10 text-center flex flex-col items-center"
-            >
+            <div className="max-w-[1200px] mx-auto relative z-10 text-center flex flex-col items-center">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -113,7 +98,7 @@ export function CtaSection() {
                     transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="mt-28 w-px h-28 bg-gradient-to-b from-accent to-transparent origin-top"
                 />
-            </motion.div>
+            </div>
         </section>
     );
 }

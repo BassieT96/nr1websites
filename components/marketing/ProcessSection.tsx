@@ -23,7 +23,6 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
   // Full lifecycle transforms for sticky content (Entrance -> Stay -> Exit)
   const headerOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const headerY = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [60, 0, 0, -60]);
-  const headerBlur = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], ["blur(15px)", "blur(0px)", "blur(0px)", "blur(15px)"]);
   
   // Dynamic path length mapping
   const pathLength = useTransform(scrollYDelayed, [0, 1], [0, 1.2]);
@@ -37,16 +36,8 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
       <div className="absolute inset-0 pointer-events-none">
         {/* Fluid Mesh Ambience */}
         <div className="absolute inset-0 overflow-hidden">
-          <motion.div 
-            animate={{ x: [0, 40, 0], y: [0, -20, 0], rotate: [0, 45, 0] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[10%] left-[5%] w-[40vw] h-[40vw] bg-primary/[0.03] blur-[120px] rounded-full mix-blend-multiply" 
-          />
-          <motion.div 
-            animate={{ x: [0, -30, 0], y: [0, 40, 0], rotate: [0, -30, 0] }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] bg-accent/[0.03] blur-[100px] rounded-full mix-blend-multiply" 
-          />
+          <div className="absolute top-[10%] left-[5%] w-[40vw] h-[40vw] bg-primary/[0.03] blur-[120px] rounded-full mix-blend-multiply" />
+          <div className="absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] bg-accent/[0.03] blur-[100px] rounded-full mix-blend-multiply" />
         </div>
 
         {/* Blueprint Markers */}
@@ -86,7 +77,7 @@ export function ProcessSection({ compact }: { compact?: boolean }) {
             variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0, transition: { type: "spring", damping: 25 } } }}
             className="lg:w-1/3"
           >
-             <motion.div style={{ opacity: headerOpacity, y: headerY, filter: headerBlur }} className="sticky top-40">
+             <motion.div style={{ opacity: headerOpacity, y: headerY }} className="sticky top-40">
                <div className="flex items-center gap-3 mb-10 translate-x-[-4px]">
                    <div className="h-px w-10 bg-accent/30" />
                    <span className="text-zinc-400 font-mono text-[10px] uppercase tracking-[0.4em]">
