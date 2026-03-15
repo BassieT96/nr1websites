@@ -138,10 +138,12 @@ export function TargetAudienceSection() {
                         ? "bg-gradient-to-t from-black via-black/30 to-transparent" 
                         : "bg-black/60"
                     )} />
-                    <Image 
-                      src={item.image!} 
-                      alt={item.title} 
+                    <Image
+                      src={item.image!}
+                      alt={item.title}
                       fill
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                       className={cn(
                         "object-cover transition-all duration-1000 ease-out",
                         isActive ? "scale-105 opacity-100" : "scale-100 opacity-30"

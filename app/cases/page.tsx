@@ -1,12 +1,24 @@
+import dynamic from "next/dynamic";
+
 import { StructuredData } from "@/components/seo/StructuredData";
-import { ContactSection } from "@/components/marketing/ContactSection";
 import { PageHero } from "@/components/marketing/PageHero";
-import { PortfolioSection } from "@/components/marketing/PortfolioSection";
-import { TestimonialsSection } from "@/components/marketing/TestimonialsSection";
 import { getPageSpecByPath } from "@/content";
 import { createMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/seo/absolute-url";
 import { getBreadcrumbJsonLd, getPageJsonLd } from "@/lib/seo/json-ld";
+
+const PortfolioSection = dynamic(
+  () => import("@/components/marketing/PortfolioSection").then((m) => m.PortfolioSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const TestimonialsSection = dynamic(
+  () => import("@/components/marketing/TestimonialsSection").then((m) => m.TestimonialsSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const ContactSection = dynamic(
+  () => import("@/components/marketing/ContactSection").then((m) => m.ContactSection),
+  { loading: () => <div className="deferred-section" /> }
+);
 
 const pageSpec = getPageSpecByPath("/cases");
 
@@ -42,7 +54,7 @@ export default function CasesPage() {
       <PageHero
         description={
           pageSpec?.mainMessage ??
-          "Deze structuur is geschikt voor een compacte cases-pagina vandaag, maar kan later probleemloos groeien naar individuele case studies, filterbare sectoren en uitgebreide resultatenpagina’s."
+          "Deze structuur is geschikt voor een compacte cases-pagina vandaag, maar kan later probleemloos groeien naar individuele case studies, filterbare sectoren en uitgebreide resultatenpagina's."
         }
         eyebrow="Cases"
         primaryHref="/contact"

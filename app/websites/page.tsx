@@ -1,14 +1,31 @@
+import dynamic from "next/dynamic";
+
 import { getCommercialPageBySlug } from "@/content";
 import { createMetadata } from "@/lib/metadata";
 import { WebsitesHero } from "@/components/marketing/WebsitesHero";
 import { WebsitesServiceGrid } from "@/components/marketing/WebsitesServiceGrid";
-import {
-  WebsitesBento,
-  WebsitesProcess,
-  WebsitesCasesStrip,
-  WebsitesDarkCTA,
-} from "@/components/marketing/WebsitesSections";
-import { FaqSection } from "@/components/marketing/FaqSection";
+
+// Below-fold sections — code-split
+const WebsitesBento = dynamic(
+  () => import("@/components/marketing/WebsitesSections").then((m) => m.WebsitesBento),
+  { loading: () => <div className="deferred-section" /> }
+);
+const WebsitesProcess = dynamic(
+  () => import("@/components/marketing/WebsitesSections").then((m) => m.WebsitesProcess),
+  { loading: () => <div className="deferred-section" /> }
+);
+const WebsitesCasesStrip = dynamic(
+  () => import("@/components/marketing/WebsitesSections").then((m) => m.WebsitesCasesStrip),
+  { loading: () => <div className="deferred-section" /> }
+);
+const WebsitesDarkCTA = dynamic(
+  () => import("@/components/marketing/WebsitesSections").then((m) => m.WebsitesDarkCTA),
+  { loading: () => <div className="deferred-section" /> }
+);
+const FaqSection = dynamic(
+  () => import("@/components/marketing/FaqSection").then((m) => m.FaqSection),
+  { loading: () => <div className="deferred-section" /> }
+);
 
 const page = getCommercialPageBySlug("websites");
 

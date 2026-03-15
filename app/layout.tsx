@@ -7,8 +7,16 @@ import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
-import { CinematicBackground } from "@/components/ui/cinematic-background";
-import { StickyMobileCTA } from "@/components/ui/StickyMobileCTA";
+import dynamic from "next/dynamic";
+
+const CinematicBackground = dynamic(
+  () => import("@/components/ui/cinematic-background").then((m) => m.CinematicBackground),
+  { ssr: false }
+);
+const StickyMobileCTA = dynamic(
+  () => import("@/components/ui/StickyMobileCTA").then((m) => m.StickyMobileCTA),
+  { ssr: false }
+);
 import { siteConfig } from "@/content";
 import {
   getLocalBusinessJsonLd,

@@ -1,13 +1,28 @@
+import dynamic from "next/dynamic";
+
 import { StructuredData } from "@/components/seo/StructuredData";
-import { AboutSection } from "@/components/marketing/AboutSection";
-import { ContactSection } from "@/components/marketing/ContactSection";
 import { PageHero } from "@/components/marketing/PageHero";
-import { ProcessSection } from "@/components/marketing/ProcessSection";
-import { TestimonialsSection } from "@/components/marketing/TestimonialsSection";
 import { getPageSpecByPath } from "@/content";
 import { createMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/seo/absolute-url";
 import { getBreadcrumbJsonLd, getPageJsonLd } from "@/lib/seo/json-ld";
+
+const AboutSection = dynamic(
+  () => import("@/components/marketing/AboutSection").then((m) => m.AboutSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const ProcessSection = dynamic(
+  () => import("@/components/marketing/ProcessSection").then((m) => m.ProcessSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const TestimonialsSection = dynamic(
+  () => import("@/components/marketing/TestimonialsSection").then((m) => m.TestimonialsSection),
+  { loading: () => <div className="deferred-section" /> }
+);
+const ContactSection = dynamic(
+  () => import("@/components/marketing/ContactSection").then((m) => m.ContactSection),
+  { loading: () => <div className="deferred-section" /> }
+);
 
 const pageSpec = getPageSpecByPath("/over-ons");
 
