@@ -1,0 +1,31 @@
+language: "nl"
+
+reviews:
+  auto_review:
+    enabled: true
+    drafts: false
+  poem: false
+  collapse_walkthrough: false
+  path_filters:
+    - "!**/*.lock"
+    - "!**/node_modules/**"
+    - "!public/**"
+  path_instructions:
+    - path: "app/**"
+      instructions: |
+        Dit is een Next.js 16 App Router project. Controleer:
+        - Server Components vs Client Components correctheid
+        - Metadata aanwezig op indexeerbare pagina's
+        - Geen ssr:false in Server Components
+    - path: "components/**"
+      instructions: |
+        Controleer op: toegankelijkheid (ARIA, focus states, semantische HTML),
+        Tailwind v4 token gebruik, geen hardcoded kleuren buiten het design system.
+    - path: "content/**"
+      instructions: |
+        Content staat als typed TypeScript. Controleer op type-compliance
+        en consistentie met de CaseStudy, Service en LocationPage types.
+    - path: "lib/seo/**"
+      instructions: |
+        SEO utilities. Controleer of JSON-LD factories geen null doorgeven
+        aan StructuredData, en of absoluteUrl correct gebruikt wordt.
