@@ -32,7 +32,7 @@ export function HomeHero() {
 
   const animationProps = allowHeavyMotion
     ? { variants: containerVariants, initial: "hidden" as const, animate: "show" as const }
-    : {};
+    : { initial: "show" as const, animate: "show" as const };
 
   const { scrollY } = useScroll();
   const kickerYRaw = useTransform(scrollY, [0, 500], [0, -40]);

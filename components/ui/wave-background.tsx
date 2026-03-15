@@ -98,12 +98,25 @@ export function Waves({
         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
         if (isSafari) {
-            // Draw once for static visual, no animation loop
+            // Safari: static waves + mouse-driven redraw (no continuous animation loop)
             movePoints(0)
             drawLines()
+            let safariRaf: number | null = null
+            const onSafariMouseMove = (e: MouseEvent) => {
+                updateMousePosition(e.pageX, e.pageY)
+                if (safariRaf) return
+                safariRaf = requestAnimationFrame(() => {
+                    safariRaf = null
+                    movePoints(0)
+                    drawLines()
+                })
+            }
             window.addEventListener('resize', onResize)
+            window.addEventListener('mousemove', onSafariMouseMove)
             return () => {
+                if (safariRaf) cancelAnimationFrame(safariRaf)
                 window.removeEventListener('resize', onResize)
+                window.removeEventListener('mousemove', onSafariMouseMove)
             }
         }
 
