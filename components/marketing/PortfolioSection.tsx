@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
@@ -117,8 +117,8 @@ export function PortfolioSection() {
   }
 
   return (
-    <section ref={containerRef} className="deferred-section relative h-[200vh] bg-white border-y border-zinc-100">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center">
+    <section ref={containerRef} className="deferred-section relative h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
@@ -156,7 +156,7 @@ export function PortfolioSection() {
 
           {/* Scroll-Driven 3D Ring */}
           <div className="relative z-10 flex items-center justify-center">
-            <div className="w-full max-w-full -mx-12 md:-mx-32 lg:-mx-64">
+            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pt-8 pb-16">
               <ThreeDPhotoCarousel 
                 cards={cases} 
                 onActiveIndexChange={setActiveIndex}
@@ -167,7 +167,7 @@ export function PortfolioSection() {
           </div>
 
           {/* Floating Active Title */}
-          <div className="absolute bottom-[-10vh] lg:bottom-[-20vh] left-0 z-20">
+          <div className="absolute bottom-8 lg:bottom-12 left-0 z-20">
               <AnimatePresence mode="wait">
                   <motion.div
                       key={cases[activeIndex].title}

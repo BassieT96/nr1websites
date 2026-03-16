@@ -57,11 +57,10 @@ function PremiumPricingCard({
     <motion.div
       ref={cardRef}
       variants={{
-        hidden: { opacity: 0, y: 40, scale: 0.95 },
+        hidden: { opacity: 0, y: 40 },
         visible: {
           opacity: 1,
           y: 0,
-          scale: 1,
           transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 },
         },
       }}
@@ -158,15 +157,12 @@ export function PricingSection() {
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-const y0 = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 40]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const orb2Y = useTransform(scrollYProgress, [0, 1], ["20%", "-10%"]);
 
   return (
     <section
       ref={allowHeavyMotion ? containerRef : undefined}
-      className="relative py-24 lg:py-40 bg-[#050505] overflow-hidden"
+      className="relative pt-24 pb-40 lg:py-40 bg-[#050505] overflow-hidden"
     >
       {/* Cinematic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
@@ -241,52 +237,46 @@ const y0 = useTransform(scrollYProgress, [0, 1], [0, -60]);
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            <motion.div style={{ y: y0 }}>
-              <PremiumPricingCard
-                index={0}
-                tier="Starter Site"
-                price="€1.490"
-                allowPointerEffects={allowHeavyMotion}
-                features={[
-                  "Professioneel responsive design",
-                  "Snelle Next.js architectuur",
-                  "SEO-basis setup",
-                  "Contact & offerte formulier",
-                  "Lokale Google koppeling",
-                ]}
-              />
-            </motion.div>
-            <motion.div style={{ y: y1 }}>
-              <PremiumPricingCard
-                index={1}
-                isPopular
-                tier="Groei Site"
-                price="€2.950"
-                allowPointerEffects={allowHeavyMotion}
-                features={[
-                  "Premium Awwwards style animaties",
-                  "Uitgebreide SEO-optimalisatie",
-                  "Diensten & Projecten landingspagina's",
-                  "Basis conversie-copywriting",
-                  "Integratie web analytics",
-                ]}
-              />
-            </motion.div>
-            <motion.div style={{ y: y2 }}>
-              <PremiumPricingCard
-                index={2}
-                tier="Leadmachine Pro"
-                price="€4.850"
-                allowPointerEffects={allowHeavyMotion}
-                features={[
-                  "Volledige conversie copywriting",
-                  "Lokale SEO bestemmingsclusters",
-                  "Complexe funnel integraties",
-                  "Maatwerk componenten bibliotheek",
-                  "Prioriteit in support & iteraties",
-                ]}
-              />
-            </motion.div>
+            <PremiumPricingCard
+              index={0}
+              tier="Starter Site"
+              price="€1.490"
+              allowPointerEffects={allowHeavyMotion}
+              features={[
+                "Professioneel responsive design",
+                "Snelle Next.js architectuur",
+                "SEO-basis setup",
+                "Contact & offerte formulier",
+                "Lokale Google koppeling",
+              ]}
+            />
+            <PremiumPricingCard
+              index={1}
+              isPopular
+              tier="Groei Site"
+              price="€2.950"
+              allowPointerEffects={allowHeavyMotion}
+              features={[
+                "Premium Awwwards style animaties",
+                "Uitgebreide SEO-optimalisatie",
+                "Diensten & Projecten landingspagina's",
+                "Basis conversie-copywriting",
+                "Integratie web analytics",
+              ]}
+            />
+            <PremiumPricingCard
+              index={2}
+              tier="Leadmachine Pro"
+              price="€4.850"
+              allowPointerEffects={allowHeavyMotion}
+              features={[
+                "Volledige conversie copywriting",
+                "Lokale SEO bestemmingsclusters",
+                "Complexe funnel integraties",
+                "Maatwerk componenten bibliotheek",
+                "Prioriteit in support & iteraties",
+              ]}
+            />
           </motion.div>
         ) : (
           <motion.div
