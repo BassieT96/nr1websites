@@ -117,37 +117,36 @@ export function PortfolioSection() {
   }
 
   return (
-    <section ref={containerRef} className="deferred-section relative h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+    <section ref={containerRef} className="deferred-section relative h-[150vh] md:h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-start md:justify-center overflow-hidden">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
           <div className="absolute inset-0 noise-bg opacity-[0.03] mix-blend-multiply" />
-          <div className="absolute inset-0 opacity-[0.15]" 
-            style={{ 
-              backgroundImage: "linear-gradient(to right, #000000 2px, transparent 2px), linear-gradient(to bottom, #000000 2px, transparent 2px)", 
-              backgroundSize: "100px 100px" 
-            }} 
+          <div className="absolute inset-0 opacity-[0.15]"
+            style={{
+              backgroundImage: "linear-gradient(to right, #000000 2px, transparent 2px), linear-gradient(to bottom, #000000 2px, transparent 2px)",
+              backgroundSize: "100px 100px"
+            }}
           />
         </div>
 
-
-<div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-10 md:pt-32 lg:pt-80">
-          <header className="mb-6 md:mb-20 lg:mb-64">
+        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-16 md:pt-32 lg:pt-80">
+          <header className="mb-4 md:mb-20 lg:mb-64">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="flex items-center gap-3 mb-4 lg:mb-20">
+              <div className="flex items-center gap-3 mb-3 lg:mb-20">
                   <div className="h-px w-10 bg-accent" />
                   <span className="text-accent font-mono text-sm uppercase tracking-[0.3em]">
                       Selected Works
                   </span>
               </div>
               <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-                <h2 className="text-6xl lg:text-9xl font-display font-medium text-zinc-900 tracking-tight leading-[0.85]">
+                <h2 className="text-3xl md:text-6xl lg:text-9xl font-display font-medium text-zinc-900 tracking-tight leading-[0.9]">
                   Werk dat <br /> <span className="text-accent italic">impact</span> maakt.
                 </h2>
               </div>
@@ -156,9 +155,9 @@ export function PortfolioSection() {
 
           {/* Scroll-Driven 3D Ring */}
           <div className="relative z-10 flex items-center justify-center">
-            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pt-8 pb-16">
-              <ThreeDPhotoCarousel 
-                cards={cases} 
+            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pt-4 md:pt-8 pb-8 md:pb-16">
+              <ThreeDPhotoCarousel
+                cards={cases}
                 onActiveIndexChange={setActiveIndex}
                 activeIndex={activeIndex}
                 rotationOverride={rotation}
@@ -167,7 +166,7 @@ export function PortfolioSection() {
           </div>
 
           {/* Floating Active Title */}
-          <div className="absolute bottom-8 lg:bottom-12 left-0 z-20">
+          <div className="relative z-20 mt-2 md:absolute md:bottom-8 lg:bottom-12 md:left-0">
               <AnimatePresence mode="wait">
                   <motion.div
                       key={cases[activeIndex].title}
@@ -176,10 +175,10 @@ export function PortfolioSection() {
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   >
-                      <span className="text-accent font-mono text-xs uppercase tracking-[0.3em] block mb-2">
+                      <span className="text-accent font-mono text-xs uppercase tracking-[0.3em] block mb-1 md:mb-2">
                           {cases[activeIndex].category}
                       </span>
-                      <h3 className="text-2xl lg:text-4xl font-display font-medium text-zinc-900">
+                      <h3 className="text-lg md:text-2xl lg:text-4xl font-display font-medium text-zinc-900">
                           {cases[activeIndex].title}
                       </h3>
                   </motion.div>

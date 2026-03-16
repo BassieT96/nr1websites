@@ -139,10 +139,10 @@ const Carousel = memo(
     rotationOverride?: MotionValue<number>
   }) => {
     const isScreenSizeSm = useMediaQuery("(max-width: 768px)")
-    const faceWidth = isScreenSizeSm ? 150 : 220
+    const faceWidth = isScreenSizeSm ? 120 : 220
     const faceCount = cards.length
     const cylinderWidth = faceWidth * faceCount
-    const radius = (cylinderWidth / (2 * Math.PI)) * (isScreenSizeSm ? 1.2 : 1.5)
+    const radius = (cylinderWidth / (2 * Math.PI)) * (isScreenSizeSm ? 1.1 : 1.5)
     
     // Internal rotation if no override is provided
     const internalRotation = useMotionValue(0)
@@ -207,7 +207,7 @@ const Carousel = memo(
         )}
 
         {/* 3D Ring Container */}
-        <div className="relative w-full max-w-full flex items-center justify-center h-[260px] md:h-[650px] overflow-visible">
+        <div className="relative w-full max-w-full flex items-center justify-center h-[200px] md:h-[650px] overflow-visible">
             <div
                 className="flex h-full items-center justify-center"
                 style={{
