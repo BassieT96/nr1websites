@@ -49,7 +49,7 @@ const cases: CarouselCard[] = [
     description: "Een strakke, corporate website voor een toonaangevend transportbedrijf in de regio.",
     category: "Corporate Design",
     href: "/cases/vriesland-logistiek",
-    image: "https://images.unsplash.com/photo-1519003722824-192d992a605b?q=80&w=2670&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2670&auto=format&fit=crop",
   },
 ];
 

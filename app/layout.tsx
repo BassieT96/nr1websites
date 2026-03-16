@@ -76,6 +76,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className={`scroll-smooth ${sora.variable} ${plusJakartaSans.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+      </head>
       <body className="bg-background text-foreground antialiased font-sans">
         <a
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2"

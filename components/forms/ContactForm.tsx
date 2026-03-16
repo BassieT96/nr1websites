@@ -65,6 +65,12 @@ export function ContactForm() {
         message: "Bedankt. We nemen meestal binnen één werkdag contact op.",
         tone: "success",
       });
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        window.gtag("event", "generate_lead", {
+          event_category: "engagement",
+          event_label: "contact_form",
+        });
+      }
     } catch (error) {
       setStatus({
         message:
