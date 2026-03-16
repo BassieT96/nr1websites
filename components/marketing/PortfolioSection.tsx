@@ -132,15 +132,15 @@ export function PortfolioSection() {
         </div>
 
 
-<div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-64 lg:pt-80">
-          <header className="mb-40 lg:mb-64">
+<div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-10 md:pt-32 lg:pt-80">
+          <header className="mb-6 md:mb-20 lg:mb-64">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="flex items-center gap-3 mb-16 lg:mb-20">
+              <div className="flex items-center gap-3 mb-4 lg:mb-20">
                   <div className="h-px w-10 bg-accent" />
                   <span className="text-accent font-mono text-sm uppercase tracking-[0.3em]">
                       Selected Works
