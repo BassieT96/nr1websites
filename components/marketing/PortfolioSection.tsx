@@ -118,7 +118,7 @@ export function PortfolioSection() {
 
   return (
     <section ref={containerRef} className="deferred-section relative h-[150vh] md:h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-start md:justify-center overflow-hidden">
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
@@ -131,7 +131,7 @@ export function PortfolioSection() {
           />
         </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-16 md:pt-32 lg:pt-80">
+        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-4 md:pt-32 lg:pt-80">
           <header className="mb-4 md:mb-20 lg:mb-64">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
