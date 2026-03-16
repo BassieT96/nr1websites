@@ -200,7 +200,7 @@ export function Waves({
 
         const onResize = () => { setSize(); setLines() }
         const onMouseMove = (e: MouseEvent) => updateMousePosition(e.pageX, e.pageY)
-        const onTouchMove = (e: TouchEvent) => { e.preventDefault(); updateMousePosition(e.touches[0].clientX, e.touches[0].clientY) }
+        const onTouchMove = (e: TouchEvent) => { updateMousePosition(e.touches[0].clientX, e.touches[0].clientY) }
 
         // Safari: draw once + mousemove-driven redraws (no animation loop)
         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
@@ -223,7 +223,7 @@ export function Waves({
 
         window.addEventListener('resize', onResize)
         window.addEventListener('mousemove', onMouseMove)
-        containerRef.current.addEventListener('touchmove', onTouchMove, { passive: false })
+        containerRef.current.addEventListener('touchmove', onTouchMove, { passive: true })
 
         const onVisibilityChange = () => {
             if (document.hidden) { if (rafRef.current) cancelAnimationFrame(rafRef.current) }

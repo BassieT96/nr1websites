@@ -157,7 +157,7 @@ export function ContactCTABlock({
             <ArrowRight className="size-5 ml-2" />
           </ButtonLink>
           <a
-             href="https://wa.me/31600000000"
+             href="https://wa.me/31612345678"
              target="_blank"
              rel="noopener noreferrer"
              className="inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-5 text-[15px] font-bold transition-all duration-500 border border-border bg-surface-strong/50 text-foreground hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-tinted hover:shadow-card active:scale-[0.98]"
