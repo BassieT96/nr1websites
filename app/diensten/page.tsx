@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { createMetadata } from "@/lib/metadata";
-import { PageHero } from "@/components/marketing/PageHero";
+import { DienstenHero } from "@/components/marketing/DienstenHero";
 import { DienstenServiceGrid } from "@/components/marketing/DienstenServiceGrid";
 
 // Below-fold sections — code-split
@@ -21,15 +21,11 @@ export const metadata = createMetadata({
 
 export default function DienstenPage() {
   return (
-    <div className="theme-dark">
-      <PageHero
-        eyebrow="Onze diensten"
-        title="Onze diensten"
-        description="Wij helpen bedrijven met professionele digitale oplossingen die resultaat opleveren. Van strategie en design tot ontwikkeling en optimalisatie."
-      />
+    <>
+      <DienstenHero />
       <DienstenServiceGrid />
       <DienstenVoordelen />
       <DienstenCTA />
-    </div>
+    </>
   );
 }

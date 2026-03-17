@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
-import { ButtonLink } from "@/components/ui/Button";
+import { CheckCircle2 } from "lucide-react";
+import { ContactCTABlock } from "@/components/ui/ProcessAndCTA";
+import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
-// ─── 1. Waarom voor ons kiezen (Voordelen) ──────────────────────────────────
+// ─── 1. Waarom voor ons kiezen (Voordelen = Donker) ─────────────────────────
 
 const voordelen = [
   {
@@ -31,45 +31,63 @@ const voordelen = [
 ];
 
 export function DienstenVoordelen() {
+  const { allowHeavyMotion } = usePerformanceProfile();
+
+  const animationProps = allowHeavyMotion ? {
+    initial: { opacity: 0, y: 12 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6 }
+  } : {};
+
   return (
-    <section className="bg-[#020202] px-6 py-24 lg:py-32 border-t border-white/[0.04]">
-      <div className="max-w-5xl mx-auto">
+    <section className="bg-[#050505] px-6 py-24 lg:py-32 relative overflow-hidden">
+      {/* Background ambient noise */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+         <div className="absolute inset-0 opacity-[0.1]" style={{ backgroundImage: "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)", backgroundSize: "60px 60px", maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)" }} />
+         <div className="absolute inset-0 bg-[#050505] opacity-80 noise-bg mix-blend-overlay" />
+      </div>
+
+      <div className="container-content mx-auto relative z-10">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          {...animationProps}
           className="mb-16 lg:mb-20"
         >
           <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/25 block mb-4">
             Onze werkwijze
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-semibold text-white tracking-tight leading-tight">
-            Waarom voor <span className="text-[#3662e3]">ons kiezen?</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl lg:text-[4rem] font-display font-medium text-white tracking-tight leading-tight">
+            Waarom voor <span className="text-[#3662e3] font-semibold">ons kiezen?</span>
           </h2>
         </motion.div>
 
         {/* Steps grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {voordelen.map((voordeel, i) => (
             <motion.div
               key={voordeel.number}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={allowHeavyMotion ? { opacity: 0, y: 16 } : undefined}
+              whileInView={allowHeavyMotion ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true, margin: "-40px" }}
               transition={{
                 duration: 0.6,
                 delay: i * 0.08,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group bg-[#020202] p-8 lg:p-9 hover:bg-white/[0.025] transition-colors duration-300"
+              className="group rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.35)] hover:border-white/20 transition-all duration-500 relative overflow-hidden"
             >
-              <CheckCircle2 className="size-6 text-[#3662e3]/60 mb-8" strokeWidth={1.5} />
-              <h3 className="text-[1.1rem] font-display font-semibold text-white/70 group-hover:text-white transition-colors duration-300 mb-3 tracking-tight">
+              {/* Internal abstract glow */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#3662e3]/10 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+              <div className="flex h-14 w-14 mb-8 items-center justify-center rounded-2xl bg-black/40 border border-white/5">
+                 <CheckCircle2 className="size-6 text-[#3662e3]" strokeWidth={1.5} />
+              </div>
+              
+              <h3 className="text-2xl font-display font-semibold text-white/80 group-hover:text-white transition-colors duration-300 mb-4 tracking-tight">
                 {voordeel.title}
               </h3>
-              <p className="text-sm text-white/22 group-hover:text-white/38 transition-colors duration-300 leading-relaxed">
+              <p className="text-base text-white/50 group-hover:text-white/70 transition-colors duration-300 leading-relaxed font-light">
                 {voordeel.description}
               </p>
             </motion.div>
@@ -80,42 +98,43 @@ export function DienstenVoordelen() {
   );
 }
 
-// ─── 2. Dark CTA ────────────────────────────────────────────────────────────
+// ─── 2. Diensten CTA (Light) ───────────────────────────────────────────────────
 
 export function DienstenCTA() {
-  return (
-    <section className="bg-[#020202] px-6 py-24 lg:py-32 border-t border-white/[0.04]">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="relative overflow-hidden rounded-3xl bg-white/[0.025] border border-white/[0.07] px-8 py-16 lg:px-16 lg:py-20 text-center"
-        >
-          {/* Glow */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px]" style={{ background: "radial-gradient(ellipse at center, rgba(54,98,227,0.14) 0%, transparent 65%)" }} />
-          </div>
+  const { allowHeavyMotion } = usePerformanceProfile();
+  
+  const animationProps = allowHeavyMotion ? {
+    initial: "hidden",
+    whileInView: "visible",
+    viewport: { once: true, margin: "-100px" },
+    variants: {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+    }
+  } : {};
 
-          <div className="relative z-10 max-w-xl mx-auto flex flex-col items-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-semibold text-white tracking-tight leading-tight mb-5">
-              Klaar om samen te werken?
-            </h2>
-            <p className="text-base text-white/60 leading-relaxed mb-10 text-balance">
-              Neem contact met ons op en ontdek wat wij voor jouw bedrijf kunnen betekenen.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <ButtonLink
-                href="/contact"
-                className="h-13 px-9 text-[15px] rounded-full bg-[#3662e3] text-white hover:bg-[#2a52d4] hover:scale-[1.02] transition-all font-medium"
-              >
-                Vraag een offerte aan
-              </ButtonLink>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+  const iv = allowHeavyMotion ? {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring" as const, damping: 25 } }
+  } : undefined;
+
+  return (
+    <section className="page-section deferred-section bg-background" id="contact">
+      <motion.div 
+        {...animationProps}
+        className="container-content mx-auto px-6 max-w-5xl"
+      >
+         <h2 className="sr-only">Vaste prijs, heldere afspraken</h2>
+         
+         <motion.div variants={iv}>
+           <ContactCTABlock 
+            title="Klaar om samen te werken?"
+            description="Neem contact met ons op en ontdek wat wij voor jouw bedrijf kunnen betekenen."
+            primaryButtonText="Vraag een offerte aan"
+            primaryButtonHref="/contact"
+         />
+         </motion.div>
+      </motion.div>
     </section>
   );
 }
