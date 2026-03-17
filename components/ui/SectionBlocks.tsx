@@ -16,7 +16,7 @@ export function TestimonialCard({
   company: string;
 }) {
   return (
-    <article className="group relative overflow-hidden rounded-[2rem] border border-border/80 bg-white p-8 md:p-10">
+    <article className="group relative overflow-hidden rounded-[2rem] border border-border/80 bg-surface p-8 md:p-10">
       <div className="pointer-events-none absolute -right-16 -top-16 size-44 rounded-full bg-accent/10 blur-2xl" />
       <div className="pointer-events-none absolute -left-20 bottom-0 h-32 w-64 rounded-full bg-accent/5 blur-3xl" />
 
