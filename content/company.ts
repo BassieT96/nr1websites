@@ -6,7 +6,7 @@ import { siteConfig } from "@/content/settings/site";
 
 export const navItems: NavigationItem[] = [
   { href: "/", label: "Home" },
-  { href: "/websites", label: "Websites" },
+  { href: "/diensten", label: "Diensten" },
   { href: "/seo-groei", label: "SEO & Groei" },
   { href: "/cases", label: "Cases" },
   { href: "/over-ons", label: "Over ons" },
@@ -110,7 +110,7 @@ export const pricingPreview = [
 
 export const footerLinks = [
   { href: "/", label: "Home" },
-  { href: "/websites", label: "Websites" },
+  { href: "/diensten", label: "Diensten" },
   { href: "/seo-groei", label: "SEO & Groei" },
   { href: "/cases", label: "Cases" },
   { href: "/voor-zzpers", label: "Voor ZZP’ers" },
