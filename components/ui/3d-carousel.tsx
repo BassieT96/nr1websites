@@ -205,7 +205,7 @@ const Carousel = memo(
         )}
 
         {/* 3D Ring Container */}
-        <div className="relative w-full max-w-full flex items-center justify-center overflow-visible" style={{ height: isScreenSizeSm ? '240px' : 'clamp(240px, 40vw, 450px)' }}>
+        <div className="relative w-full max-w-full flex items-center justify-center overflow-visible" style={{ height: isScreenSizeSm ? '240px' : 'clamp(240px, 26vw, 380px)' }}>
             <div
                 className="flex h-full items-center justify-center"
                 style={{

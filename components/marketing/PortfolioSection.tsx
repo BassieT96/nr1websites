@@ -134,8 +134,8 @@ export function PortfolioSection() {
           />
         </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-16 lg:pt-20 md:pb-10 md:flex-1 md:flex md:flex-col">
-          <header className="mb-4 md:mb-0 md:shrink-0">
+        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-16 lg:pt-24">
+          <header className="mb-4 md:mb-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -157,7 +157,7 @@ export function PortfolioSection() {
           </header>
 
           {/* 3D Carousel — scroll-driven on desktop, draggable on mobile */}
-          <div className="relative z-10 md:flex-1 flex items-center justify-center min-h-0">
+          <div className="relative z-10 flex items-center justify-center">
             <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 pb-0">
               <ThreeDPhotoCarousel
                 cards={cases}
@@ -168,8 +168,8 @@ export function PortfolioSection() {
             </div>
           </div>
 
-          {/* Active Title — inline on mobile, in-flow at bottom on desktop */}
-          <div className="relative z-20 mt-6 pb-12 md:pb-0 md:mt-0 md:shrink-0">
+          {/* Active Title — inline on mobile, absolute on desktop */}
+          <div className="relative z-20 mt-6 pb-12 md:pb-0 md:absolute md:bottom-8 lg:bottom-12 md:left-0 md:mt-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={cases[activeIndex].title}
