@@ -47,7 +47,7 @@ export function AccordionItem({ vraag, antwoord, isOpen, onToggle, index, dark =
                     }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     className={cn(
-                        "size-12 rounded-full border flex items-center justify-center transition-all duration-500 shadow-lg",
+                        "size-12 aspect-square flex-shrink-0 rounded-full border flex items-center justify-center transition-all duration-500 shadow-lg",
                         dark 
                             ? (isOpen ? "border-primary/50 text-primary" : "border-white/10 text-white/20 group-hover:border-white/30 group-hover:text-white/50")
                             : (isOpen ? "border-accent text-accent" : "border-border text-muted")
