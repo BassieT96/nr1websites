@@ -122,8 +122,8 @@ export function PortfolioSection() {
         <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-16 lg:pt-32">
           <header className="mb-10 md:mb-20">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
