@@ -36,7 +36,7 @@ export const metadata = createMetadata({
 
 export default function OverOnsPage() {
   return (
-    <>
+    <div className="theme-dark bg-background">
       {pageSpec ? (
         <>
           <StructuredData
@@ -71,6 +71,6 @@ export default function OverOnsPage() {
       <ProcessSection compact />
       <TestimonialsSection />
       <ContactSection withHeading={false} />
-    </>
+    </div>
   );
 }
