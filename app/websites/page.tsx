@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 import { getCommercialPageBySlug } from "@/content";
 import { createMetadata } from "@/lib/metadata";
-import { WebsitesHero } from "@/components/marketing/WebsitesHero";
+import { PageHero } from "@/components/marketing/PageHero";
 import { WebsitesServiceGrid } from "@/components/marketing/WebsitesServiceGrid";
 
 // Below-fold sections — code-split
@@ -42,7 +42,15 @@ export default function WebsitesPage() {
 
   return (
     <main className="bg-[#020202]">
-      <WebsitesHero page={page} />
+      <PageHero
+        eyebrow={page.eyebrow}
+        title={page.title}
+        description={page.description}
+        primaryHref={page.primaryCta.href}
+        primaryLabel={page.primaryCta.label}
+        secondaryHref={page.secondaryCta.href}
+        secondaryLabel={page.secondaryCta.label}
+      />
       <WebsitesServiceGrid />
       <WebsitesBento />
       <WebsitesProcess />
