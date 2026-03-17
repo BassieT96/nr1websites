@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import {
   AnimatePresence,
   motion,
@@ -162,6 +162,22 @@ const Carousel = memo(
         return () => unsubscribe();
     }, [rotation, faceCount, onActiveIndexChange]);
 
+    // Mouse wheel support
+    const wheelTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const handleWheel = (e: React.WheelEvent) => {
+      e.preventDefault();
+      rotation.set(rotation.get() - e.deltaY * 0.2);
+      if (wheelTimeoutRef.current) clearTimeout(wheelTimeoutRef.current);
+      wheelTimeoutRef.current = setTimeout(() => {
+        const step = 360 / faceCount;
+        const nearest = Math.round(rotation.get() / step) * step;
+        controls.start({
+          rotateY: nearest,
+          transition: { type: "spring", stiffness: 100, damping: 20 },
+        });
+      }, 150);
+    };
+
     // Internal rotation control
     const rotateToIndex = (index: number) => {
         const step = 360 / faceCount;
@@ -183,7 +199,7 @@ const Carousel = memo(
     };
 
     return (
-      <div className="relative w-full flex items-center justify-center group/carousel">
+      <div className="relative w-full flex items-center justify-center group/carousel" onWheel={handleWheel}>
         {/* Navigation Arrows (Only show if not scroll-controlled or on hover) */}
         {!rotationOverride && (
           <>

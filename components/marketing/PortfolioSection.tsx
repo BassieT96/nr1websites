@@ -1,11 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
-// Safari note: useScroll+useSpring used for carousel rotationOverride only (scroll-sync feature)
-import { ThreeDPhotoCarousel, CarouselCard, useMediaQuery } from "@/components/ui/3d-carousel";
+import { motion, AnimatePresence } from "framer-motion";
+import { ThreeDPhotoCarousel, CarouselCard } from "@/components/ui/3d-carousel";
 import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
 const cases: CarouselCard[] = [
@@ -54,20 +53,8 @@ const cases: CarouselCard[] = [
 ];
 
 export function PortfolioSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const { allowHeavyMotion } = usePerformanceProfile();
-  // initializeWithValue:false avoids SSR hydration mismatch; corrects after mount
-  const isMobile = useMediaQuery("(max-width: 768px)", { initializeWithValue: false });
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Smooth scroll sync: 0 progress = 0 deg, 1 progress = -180 deg (Focus on a selection)
-  const rawRotation = useTransform(scrollYProgress, [0, 1], [0, -180]);
-  const rotation = useSpring(rawRotation, { stiffness: 400, damping: 90 });
 
   if (!allowHeavyMotion) {
     return (
@@ -118,10 +105,8 @@ export function PortfolioSection() {
   }
 
   return (
-    // Mobile: h-auto (normal flow). Desktop: h-[160vh] (sticky scroll, 60vh scroll space)
-    <section ref={containerRef} className="deferred-section relative h-auto md:h-[110vh] bg-white border-y border-zinc-100 overflow-x-hidden">
-      {/* Mobile: relative (normal flow). Desktop: sticky top, content from top */}
-      <div className="relative md:sticky top-0 h-auto md:h-screen w-full flex flex-col items-center">
+    <section className="deferred-section relative bg-white border-y border-zinc-100 overflow-x-hidden">
+      <div className="relative w-full flex flex-col items-center">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
@@ -156,20 +141,19 @@ export function PortfolioSection() {
             </motion.div>
           </header>
 
-          {/* 3D Carousel — scroll-driven on desktop, draggable on mobile */}
+          {/* 3D Carousel — draggable + mouse wheel on all devices */}
           <div className="relative z-10 flex items-center justify-center">
             <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 pb-0">
               <ThreeDPhotoCarousel
                 cards={cases}
                 onActiveIndexChange={setActiveIndex}
                 activeIndex={activeIndex}
-                rotationOverride={isMobile ? undefined : rotation}
               />
             </div>
           </div>
 
-          {/* Active Title — inline on mobile, absolute on desktop */}
-          <div className="relative z-20 mt-6 pb-12 md:pb-0 md:absolute md:bottom-8 lg:bottom-12 md:left-0 md:mt-0">
+          {/* Active Title */}
+          <div className="relative z-20 mt-6 pb-12 md:pb-16">
             <AnimatePresence mode="wait">
               <motion.div
                 key={cases[activeIndex].title}
