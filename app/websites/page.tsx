@@ -41,7 +41,7 @@ export default function WebsitesPage() {
   }
 
   return (
-    <main className="bg-[#020202]">
+    <main>
       <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
