@@ -134,7 +134,7 @@ export function PortfolioSection() {
           />
         </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-16 lg:pt-20 md:pb-10 md:h-full md:flex md:flex-col">
+        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-16 lg:pt-20 md:pb-10 md:flex-1 md:flex md:flex-col">
           <header className="mb-4 md:mb-0 md:shrink-0">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
