@@ -41,6 +41,7 @@ export type CaseStudy = {
   challenge: string;
   solution: string;
   resultSummary: string;
+  image: string;
 };
 
 export type Testimonial = {

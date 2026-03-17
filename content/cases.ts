@@ -20,6 +20,7 @@ export const caseStudies: CaseStudy[] = [
       "We bouwden een moderne Next.js site met snelle laadtijden, duidelijke CTA-structuur en gerichte lokale SEO-landingspagina's per dienst.",
     resultSummary:
       "Binnen drie maanden verdubbelde het aantal organische bezoekers en stegen de online boekingen met meer dan 60%.",
+    image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2669&auto=format&fit=crop",
   },
   {
     slug: "studio-flux",
@@ -40,6 +41,7 @@ export const caseStudies: CaseStudy[] = [
       "We zetten een collectie-gedreven case-architectuur neer met herbruikbare secties, vloeiende animaties en centrale contentdefinities.",
     resultSummary:
       "Nieuwe projecten kunnen nu veel sneller live, terwijl de site consistent, snel en technisch schoon blijft.",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop",
   },
   {
     slug: "atelier-noord",
@@ -60,6 +62,7 @@ export const caseStudies: CaseStudy[] = [
       "We bouwden een heldere product- en categoriestructuur, een rustiger ontwerp en een snelle checkout met minder frictie.",
     resultSummary:
       "Meer kwalitatieve bezoekers, hogere conversie en een merkpresentatie die aansluit bij de premium positionering van de winkel.",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop",
   },
   {
     slug: "noord-west",
@@ -80,6 +83,7 @@ export const caseStudies: CaseStudy[] = [
       "We bouwden een geautomatiseerde woningfeed met real-time synchronisatie, een intuïtief filterinterface en een strak contactformulier per object.",
     resultSummary:
       "Woningpresentaties gaan nu razendsnel live en potentiële kopers vinden en contacten makelaars directer dan ooit.",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop",
   },
   {
     slug: "lemmer-watersport",
@@ -100,6 +104,7 @@ export const caseStudies: CaseStudy[] = [
       "We ontwierpen een sfeervolle, snelle site met een duidelijke scheiding tussen verhuur, verkoop en service, aangevuld met een eenvoudig boekingsformulier.",
     resultSummary:
       "Meer bezoekers boeken direct online, de merkbeleving sluit aan op de premium watersportervaring en de site presteert uitstekend op mobiel.",
+    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2670&auto=format&fit=crop",
   },
   {
     slug: "vriesland-logistiek",
@@ -120,6 +125,7 @@ export const caseStudies: CaseStudy[] = [
       "We bouwden een heldere dienstenarchitectuur, een professioneel ontwerp met sterk kleurgebruik en een directe offerte-CTA op elke dienstenpagina.",
     resultSummary:
       "Zakelijke klanten begrijpen het aanbod sneller, nemen eerder contact op en de site versterkt de marktpositie van Vriesland Logistiek in de regio.",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2670&auto=format&fit=crop",
   },
 ];
 
