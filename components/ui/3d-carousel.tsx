@@ -103,12 +103,10 @@ const Card = ({
       onClick={() => handleClick(card, index)}
     >
       <div className="relative w-full h-full bg-zinc-900 rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer group">
-        <motion.img
+        <img
           src={card.image}
           alt={card.title}
-          layoutId={`img-${card.image}`}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          initial={false}
         />
         <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
              <div className="size-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white">
