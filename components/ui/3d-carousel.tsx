@@ -138,11 +138,11 @@ const Carousel = memo(
     activeIndex?: number
     rotationOverride?: MotionValue<number>
   }) => {
-    const isScreenSizeSm = useMediaQuery("(max-width: 768px)")
-    const faceWidth = isScreenSizeSm ? 120 : 220
+    const isScreenSizeSm = useMediaQuery("(max-width: 768px)", { initializeWithValue: false })
+    const faceWidth = isScreenSizeSm ? 150 : 220
     const faceCount = cards.length
     const cylinderWidth = faceWidth * faceCount
-    const radius = (cylinderWidth / (2 * Math.PI)) * (isScreenSizeSm ? 1.1 : 1.5)
+    const radius = (cylinderWidth / (2 * Math.PI)) * (isScreenSizeSm ? 1.2 : 1.5)
     
     // Internal rotation if no override is provided
     const internalRotation = useMotionValue(0)
@@ -207,7 +207,7 @@ const Carousel = memo(
         )}
 
         {/* 3D Ring Container */}
-        <div className="relative w-full max-w-full flex items-center justify-center h-[200px] md:h-[650px] overflow-visible">
+        <div className="relative w-full max-w-full flex items-center justify-center overflow-visible" style={{ height: isScreenSizeSm ? '240px' : 'clamp(240px, 65vw, 650px)' }}>
             <div
                 className="flex h-full items-center justify-center"
                 style={{
@@ -286,7 +286,7 @@ function ThreeDPhotoCarousel({
   }
 
   return (
-    <motion.div layout className="relative w-full">
+    <div className="relative w-full">
       <div className="relative w-full flex items-center justify-center py-4">
         <Carousel
           handleClick={handleClick}
@@ -298,7 +298,7 @@ function ThreeDPhotoCarousel({
           rotationOverride={rotationOverride}
         />
       </div>
-    </motion.div>
+    </div>
   )
 }
 

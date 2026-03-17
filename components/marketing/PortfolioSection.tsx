@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 // Safari note: useScroll+useSpring used for carousel rotationOverride only (scroll-sync feature)
-import { ThreeDPhotoCarousel, CarouselCard } from "@/components/ui/3d-carousel";
+import { ThreeDPhotoCarousel, CarouselCard, useMediaQuery } from "@/components/ui/3d-carousel";
 import { usePerformanceProfile } from "@/lib/use-performance-profile";
 
 const cases: CarouselCard[] = [
@@ -57,6 +57,8 @@ export function PortfolioSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const { allowHeavyMotion } = usePerformanceProfile();
+  // initializeWithValue:false avoids SSR hydration mismatch; corrects after mount
+  const isMobile = useMediaQuery("(max-width: 768px)", { initializeWithValue: false });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -66,7 +68,6 @@ export function PortfolioSection() {
   // Smooth scroll sync: 0 progress = 0 deg, 1 progress = -180 deg (Focus on a selection)
   const rawRotation = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const rotation = useSpring(rawRotation, { stiffness: 400, damping: 90 });
-
 
   if (!allowHeavyMotion) {
     return (
@@ -117,8 +118,10 @@ export function PortfolioSection() {
   }
 
   return (
-    <section ref={containerRef} className="deferred-section relative h-[150vh] md:h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+    // Mobile: h-auto (normal flow). Desktop: h-[200vh] (sticky scroll)
+    <section ref={containerRef} className="deferred-section relative h-auto md:h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
+      {/* Mobile: relative (normal flow). Desktop: sticky */}
+      <div className="relative md:sticky top-0 h-auto md:h-screen w-full flex flex-col items-center md:justify-center overflow-hidden">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
@@ -131,58 +134,58 @@ export function PortfolioSection() {
           />
         </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-4 md:pt-32 lg:pt-80">
-          <header className="mb-4 md:mb-20 lg:mb-64">
+        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-32 lg:pt-80">
+          <header className="mb-8 md:mb-20 lg:mb-64">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="flex items-center gap-3 mb-3 lg:mb-20">
-                  <div className="h-px w-10 bg-accent" />
-                  <span className="text-accent font-mono text-sm uppercase tracking-[0.3em]">
-                      Selected Works
-                  </span>
+              <div className="flex items-center gap-3 mb-4 md:mb-20">
+                <div className="h-px w-10 bg-accent" />
+                <span className="text-accent font-mono text-sm uppercase tracking-[0.3em]">
+                  Selected Works
+                </span>
               </div>
               <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-                <h2 className="text-3xl md:text-6xl lg:text-9xl font-display font-medium text-zinc-900 tracking-tight leading-[0.9]">
+                <h2 className="text-4xl md:text-6xl lg:text-9xl font-display font-medium text-zinc-900 tracking-tight leading-[0.9]">
                   Werk dat <br /> <span className="text-accent italic">impact</span> maakt.
                 </h2>
               </div>
             </motion.div>
           </header>
 
-          {/* Scroll-Driven 3D Ring */}
+          {/* 3D Carousel — scroll-driven on desktop, draggable on mobile */}
           <div className="relative z-10 flex items-center justify-center">
-            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pt-4 md:pt-8 pb-8 md:pb-16">
+            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pb-0 md:pt-8 md:pb-16">
               <ThreeDPhotoCarousel
                 cards={cases}
                 onActiveIndexChange={setActiveIndex}
                 activeIndex={activeIndex}
-                rotationOverride={rotation}
+                rotationOverride={isMobile ? undefined : rotation}
               />
             </div>
           </div>
 
-          {/* Floating Active Title */}
-          <div className="relative z-20 mt-2 md:absolute md:bottom-8 lg:bottom-12 md:left-0">
-              <AnimatePresence mode="wait">
-                  <motion.div
-                      key={cases[activeIndex].title}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                      <span className="text-accent font-mono text-xs uppercase tracking-[0.3em] block mb-1 md:mb-2">
-                          {cases[activeIndex].category}
-                      </span>
-                      <h3 className="text-lg md:text-2xl lg:text-4xl font-display font-medium text-zinc-900">
-                          {cases[activeIndex].title}
-                      </h3>
-                  </motion.div>
-              </AnimatePresence>
+          {/* Active Title — inline on mobile, absolute on desktop */}
+          <div className="relative z-20 mt-6 pb-12 md:pb-0 md:absolute md:bottom-8 lg:bottom-12 md:left-0 md:mt-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={cases[activeIndex].title}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span className="text-accent font-mono text-xs uppercase tracking-[0.3em] block mb-2">
+                  {cases[activeIndex].category}
+                </span>
+                <h3 className="text-xl md:text-2xl lg:text-4xl font-display font-medium text-zinc-900">
+                  {cases[activeIndex].title}
+                </h3>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
