@@ -41,7 +41,7 @@ export default function WebsitesPage() {
   }
 
   return (
-    <main>
+    <div className="theme-dark">
       <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
@@ -50,7 +50,6 @@ export default function WebsitesPage() {
         primaryLabel={page.primaryCta.label}
         secondaryHref={page.secondaryCta.href}
         secondaryLabel={page.secondaryCta.label}
-        dark
       />
       <WebsitesServiceGrid />
       <WebsitesBento />
@@ -58,6 +57,6 @@ export default function WebsitesPage() {
       <WebsitesCasesStrip />
       <FaqSection />
       <WebsitesDarkCTA />
-    </main>
+    </div>
   );
 }

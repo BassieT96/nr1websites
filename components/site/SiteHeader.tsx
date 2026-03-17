@@ -29,7 +29,7 @@ export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Check if current page has a dark hero section
-  const isDarkHero = pathname.startsWith("/websites");
+  const isDarkHero = false;
   const useLightText = isDarkHero && !isScrolled;
 
   // Handle scroll state for glassmorphism
