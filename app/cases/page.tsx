@@ -32,7 +32,7 @@ export const metadata = createMetadata({
 
 export default function CasesPage() {
   return (
-    <>
+    <div className="theme-dark">
       {pageSpec ? (
         <>
           <StructuredData
@@ -66,6 +66,6 @@ export default function CasesPage() {
       <PortfolioSection />
       <TestimonialsSection />
       <ContactSection withHeading={false} />
-    </>
+    </div>
   );
 }

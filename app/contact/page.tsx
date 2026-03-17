@@ -22,7 +22,7 @@ export const metadata = createMetadata({
 
 export default function ContactPage() {
   return (
-    <>
+    <div className="theme-dark">
       {pageSpec ? (
         <>
           <StructuredData
@@ -114,6 +114,6 @@ export default function ContactPage() {
       </section>
 
       <ContactSection withHeading={false} />
-    </>
+    </div>
   );
 }

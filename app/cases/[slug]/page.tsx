@@ -35,5 +35,9 @@ export async function generateMetadata({
 
 export default async function CasePage({ params }: CasePageProps) {
   const { slug } = await params;
-  return <CaseStudyDetailPage slug={slug} />;
+  return (
+    <div className="theme-dark">
+      <CaseStudyDetailPage slug={slug} />
+    </div>
+  );
 }
