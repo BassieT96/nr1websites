@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring, MotionValue } from "framer-motion";
 import { Check, Zap, Sparkles, Rocket } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import { usePerformanceProfile } from "@/lib/use-performance-profile";
@@ -128,8 +129,8 @@ function PremiumPricingCard({
       </ul>
 
       {/* CTA Button */}
-      <button className={cn(
-        "relative z-10 w-full py-4 rounded-xl font-display text-sm font-medium tracking-tight overflow-hidden transition-all duration-500 group/btn transform-gpu",
+      <Link href="/contact" className={cn(
+        "relative z-10 w-full py-4 rounded-xl font-display text-sm font-medium tracking-tight overflow-hidden transition-all duration-500 group/btn transform-gpu block text-center",
         isPopular
           ? "bg-accent text-white hover:bg-accent-strong"
           : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
@@ -140,7 +141,7 @@ function PremiumPricingCard({
         </span>
         {/* Shine reflect effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 ease-in-out" />
-      </button>
+      </Link>
     </motion.div>
   );
 }
