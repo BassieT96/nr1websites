@@ -152,31 +152,27 @@
   textarea::placeholder {
     color: rgba(95, 107, 125, 0.85);
   }
-}
 
-/* =========================================================================
-   DARK THEME OVERRIDE
-   Tailwind v4 @theme vars use @property { inherits: false }, so we must
-   set them directly on every element via the * selector to bypass that.
-   ========================================================================= */
-.theme-dark,
-.theme-dark * {
-  --color-background: #0c0c0e;
-  --color-surface: #141417;
-  --color-surface-strong: #1a1a1f;
-  --color-surface-tinted: #0f1628;
-  --color-foreground: #f4f4f5;
-  --color-primary: #e4e4e7;
-  --color-primary-soft: #a1a1aa;
-  --color-muted: #71717a;
-  --color-muted-strong: #a1a1aa;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-strong: rgba(255, 255, 255, 0.12);
-}
+  /* Dark theme: set vars on every element to bypass @property { inherits: false } */
+  .theme-dark,
+  .theme-dark * {
+    --color-background: #0c0c0e;
+    --color-surface: #141417;
+    --color-surface-strong: #1a1a1f;
+    --color-surface-tinted: #0f1628;
+    --color-foreground: #f4f4f5;
+    --color-primary: #e4e4e7;
+    --color-primary-soft: #a1a1aa;
+    --color-muted: #71717a;
+    --color-muted-strong: #a1a1aa;
+    --color-border: rgba(255, 255, 255, 0.07);
+    --color-border-strong: rgba(255, 255, 255, 0.12);
+  }
 
-.theme-dark {
-  background: #0c0c0e;
-  color: #f4f4f5;
+  .theme-dark {
+    background: #0c0c0e;
+    color: #f4f4f5;
+  }
 }
 
 @layer utilities {
