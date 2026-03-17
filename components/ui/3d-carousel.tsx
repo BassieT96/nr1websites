@@ -73,24 +73,41 @@ export type CarouselCard = {
     href: string;
 }
 
-const Card = ({ 
-  card, 
-  index, 
-  faceWidth, 
-  radius, 
-  faceCount, 
-  handleClick, 
-  rotation 
-}: { 
-  card: CarouselCard, 
-  index: number, 
-  faceWidth: number, 
-  radius: number, 
-  faceCount: number, 
+const Card = ({
+  card,
+  index,
+  faceWidth,
+  radius,
+  faceCount,
+  handleClick,
+  isActive,
+  rotation
+}: {
+  card: CarouselCard,
+  index: number,
+  faceWidth: number,
+  radius: number,
+  faceCount: number,
   handleClick: (card: CarouselCard, index: number) => void,
+  isActive: boolean,
   rotation: any
 }) => {
   const angle = index * (360 / faceCount);
+
+  const inner = (
+    <div className="relative w-full h-full bg-zinc-900 rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer group">
+      <img
+        src={card.image}
+        alt={card.title}
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <div className="size-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white">
+          <ArrowUpRight className="size-5" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div
@@ -102,18 +119,11 @@ const Card = ({
       }}
       onClick={() => handleClick(card, index)}
     >
-      <div className="relative w-full h-full bg-zinc-900 rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer group">
-        <img
-          src={card.image}
-          alt={card.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-             <div className="size-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white">
-                <ArrowUpRight className="size-5" />
-             </div>
-        </div>
-      </div>
+      {isActive ? (
+        <Link href={card.href} className="block w-full h-full" draggable={false}>
+          {inner}
+        </Link>
+      ) : inner}
     </motion.div>
   );
 };
@@ -259,7 +269,7 @@ const Carousel = memo(
                 animate={controls}
                 >
                 {cards.map((card, i) => (
-                    <Card 
+                    <Card
                     key={`key-${card.image}-${i}`}
                     card={card}
                     index={i}
@@ -270,6 +280,7 @@ const Carousel = memo(
                         if (!rotationOverride) rotateToIndex(idx);
                         handleClick(c, idx);
                     }}
+                    isActive={i === activeIndex}
                     rotation={rotation}
                     />
                 ))}
