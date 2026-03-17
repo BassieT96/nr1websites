@@ -50,6 +50,7 @@ export default function WebsitesPage() {
         primaryLabel={page.primaryCta.label}
         secondaryHref={page.secondaryCta.href}
         secondaryLabel={page.secondaryCta.label}
+        dark
       />
       <WebsitesServiceGrid />
       <WebsitesBento />
