@@ -119,9 +119,9 @@ export function PortfolioSection() {
 
   return (
     // Mobile: h-auto (normal flow). Desktop: h-[160vh] (sticky scroll, 60vh scroll space)
-    <section ref={containerRef} className="deferred-section relative h-auto md:h-[160vh] bg-white border-y border-zinc-100 overflow-x-hidden">
+    <section ref={containerRef} className="deferred-section relative h-auto md:h-[130vh] bg-white border-y border-zinc-100 overflow-x-hidden">
       {/* Mobile: relative (normal flow). Desktop: sticky top, content from top */}
-      <div className="relative md:sticky top-0 h-auto md:h-screen w-full flex flex-col items-center overflow-hidden">
+      <div className="relative md:sticky top-0 h-auto md:h-screen w-full flex flex-col items-center overflow-x-hidden">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
@@ -158,7 +158,7 @@ export function PortfolioSection() {
 
           {/* 3D Carousel — scroll-driven on desktop, draggable on mobile */}
           <div className="relative z-10 flex items-center justify-center">
-            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pb-0 md:pt-4 md:pb-4">
+            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-x-hidden pb-0 md:pt-4 md:pb-4">
               <ThreeDPhotoCarousel
                 cards={cases}
                 onActiveIndexChange={setActiveIndex}
