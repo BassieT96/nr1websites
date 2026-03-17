@@ -126,18 +126,20 @@ export function DienstenServiceGrid() {
                 onFocus={() => setActiveIdx(i)}
                 onClick={() => setActiveIdx(i)}
                 className={cn(
-                  "relative overflow-hidden cursor-pointer rounded-[2rem] border transition-all duration-700 ease-out flex flex-col group",
+                  "relative overflow-hidden cursor-pointer rounded-[2rem] border flex flex-col group",
                   isActive
                     ? "lg:flex-[3.5] bg-surface border-border shadow-[0_20px_40px_rgba(0,0,0,0.05)]"
                     : "lg:flex-1 bg-surface-strong/50 border-transparent hover:bg-surface/80"
                 )}
                 style={{
                   minHeight: isActive ? "450px" : "110px",
+                  transition:
+                    "flex 500ms cubic-bezier(0.3,0,0.1,1), min-height 500ms cubic-bezier(0.3,0,0.1,1), background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease",
                 }}
               >
                 {/* Background Subtle Gradient overlay */}
                 <div className={cn(
-                  "absolute inset-0 z-0 transition-opacity duration-1000",
+                  "absolute inset-0 z-0 transition-opacity duration-700",
                   isActive ? "opacity-100 pointer-events-none" : "opacity-0"
                 )}>
                   <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[var(--surface-strong)] to-transparent opacity-40" />
@@ -177,7 +179,7 @@ export function DienstenServiceGrid() {
 
                   {/* Expanded */}
                   <div className={cn(
-                    "flex flex-col h-full justify-between transition-all duration-[600ms] w-full lg:w-[480px] max-w-full",
+                    "flex flex-col h-full justify-between transition-all duration-500 w-full lg:w-[480px] max-w-full",
                     isActive
                       ? "opacity-100 translate-y-0 visible delay-100"
                       : "opacity-0 translate-y-8 invisible absolute pointer-events-none"
