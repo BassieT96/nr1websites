@@ -156,9 +156,11 @@
 
 /* =========================================================================
    DARK THEME OVERRIDE
-   Apply .theme-dark to a page wrapper to switch all CSS tokens to dark values
+   Tailwind v4 @theme vars use @property { inherits: false }, so we must
+   set them directly on every element via the * selector to bypass that.
    ========================================================================= */
-.theme-dark {
+.theme-dark,
+.theme-dark * {
   --color-background: #0c0c0e;
   --color-surface: #141417;
   --color-surface-strong: #1a1a1f;
@@ -170,8 +172,11 @@
   --color-muted-strong: #a1a1aa;
   --color-border: rgba(255, 255, 255, 0.07);
   --color-border-strong: rgba(255, 255, 255, 0.12);
-  background: var(--color-background);
-  color: var(--color-foreground);
+}
+
+.theme-dark {
+  background: #0c0c0e;
+  color: #f4f4f5;
 }
 
 @layer utilities {
