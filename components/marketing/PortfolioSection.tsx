@@ -118,10 +118,10 @@ export function PortfolioSection() {
   }
 
   return (
-    // Mobile: h-auto (normal flow). Desktop: h-[200vh] (sticky scroll)
-    <section ref={containerRef} className="deferred-section relative h-auto md:h-[200vh] bg-white border-y border-zinc-100 overflow-x-hidden">
-      {/* Mobile: relative (normal flow). Desktop: sticky */}
-      <div className="relative md:sticky top-0 h-auto md:h-screen w-full flex flex-col items-center md:justify-center overflow-hidden">
+    // Mobile: h-auto (normal flow). Desktop: h-[160vh] (sticky scroll, 60vh scroll space)
+    <section ref={containerRef} className="deferred-section relative h-auto md:h-[160vh] bg-white border-y border-zinc-100 overflow-x-hidden">
+      {/* Mobile: relative (normal flow). Desktop: sticky top, content from top */}
+      <div className="relative md:sticky top-0 h-auto md:h-screen w-full flex flex-col items-center overflow-hidden">
         {/* Cinematic Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw]" style={{ background: "radial-gradient(circle, rgba(54,98,227,0.07) 0%, transparent 60%)" }} />
@@ -134,15 +134,15 @@ export function PortfolioSection() {
           />
         </div>
 
-        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-32 lg:pt-80">
-          <header className="mb-8 md:mb-20 lg:mb-64">
+        <div className="container-content relative z-10 mx-auto px-6 max-w-7xl w-full pt-12 md:pt-16 lg:pt-20">
+          <header className="mb-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="flex items-center gap-3 mb-4 md:mb-20">
+              <div className="flex items-center gap-3 mb-4 md:mb-8">
                 <div className="h-px w-10 bg-accent" />
                 <span className="text-accent font-mono text-sm uppercase tracking-[0.3em]">
                   Selected Works
@@ -158,7 +158,7 @@ export function PortfolioSection() {
 
           {/* 3D Carousel — scroll-driven on desktop, draggable on mobile */}
           <div className="relative z-10 flex items-center justify-center">
-            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pb-0 md:pt-8 md:pb-16">
+            <div className="w-screen -mx-6 md:w-full md:mx-0 md:-mx-16 lg:-mx-64 overflow-hidden pb-0 md:pt-4 md:pb-4">
               <ThreeDPhotoCarousel
                 cards={cases}
                 onActiveIndexChange={setActiveIndex}
