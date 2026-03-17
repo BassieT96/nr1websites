@@ -78,7 +78,7 @@ export function SiteHeader() {
           >
             <span className={cn(
               "rounded-full px-3 py-2 text-xs transition-colors",
-              useLightText ? "bg-white text-primary" : "bg-primary text-white"
+              useLightText ? "bg-white text-zinc-900" : "bg-primary text-white"
             )}>
               NR1
             </span>
@@ -106,7 +106,7 @@ export function SiteHeader() {
               href={siteConfig.ctaHref}
               className={cn(
                 "transition-colors",
-                useLightText ? "bg-white text-primary hover:bg-white/90" : ""
+                useLightText ? "bg-white text-zinc-900 hover:bg-white/90" : ""
               )}
             >
               {siteConfig.ctaLabel}
