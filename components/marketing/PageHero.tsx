@@ -28,7 +28,10 @@ export function PageHero({
   dark = false,
 }: PageHeroProps) {
   return (
-    <section className={`relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24 ${dark ? "bg-[#0c0c0e]" : ""}`}>
+    <section
+      className="relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24"
+      style={dark ? { backgroundColor: '#0c0c0e' } : undefined}
+    >
       {/* Wave background */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <Waves
